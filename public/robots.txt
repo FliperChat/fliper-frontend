@@ -1,0 +1,9 @@
+# *
+User-agent: *
+Allow: /
+
+# Host
+Host: https://fliper.com
+
+# Sitemaps
+Sitemap: https://fliper.com/sitemap.xml
