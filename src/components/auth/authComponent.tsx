@@ -1,4 +1,4 @@
-import styles from "./auth.module.css";
+import styles from "./auth.module.scss";
 
 function AuthComponent({ children }: { children: React.ReactNode }) {
   return (

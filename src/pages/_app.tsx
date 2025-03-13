@@ -1,7 +1,7 @@
 import { AuthProvider } from "@/components/context/AuthContext";
 import { AuthGuard } from "@/components/guard/authGuard";
-import "@/styles/fonts.css";
-import "@/styles/globals.css";
+import "@/styles/fonts.scss";
+import "@/styles/globals.scss";
 import { NextPage } from "next";
 import { langConvert } from "@/utils/converts";
 import { getCookie } from "cookies-next";

@@ -1,6 +1,6 @@
 import AuthComponent from "@/components/auth/authComponent";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import styles from "./accounts.module.css";
+import styles from "./accounts.module.scss";
 import SiteIcon from "@/components/icons/site/siteIcon";
 import { useRouter } from "next/router";
 import { useTranslation } from "next-i18next";
