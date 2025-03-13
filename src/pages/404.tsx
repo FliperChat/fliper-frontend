@@ -4,7 +4,7 @@ import styles from "./404.module.css";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useTranslation } from "next-i18next";
 import Head from "next/head";
-import generateAlternateLinks from "@/components/alternate/alternate";
+import GenerateAlternateLinks from "@/components/alternate/alternate";
 
 function NotFound() {
   const router = useRouter();
@@ -45,7 +45,7 @@ function NotFound() {
           content={`${process.env.SITE_URL}/android-chrome-192x192.png`}
         />
         <meta name="robots" content="noindex, nofollow" />
-        {generateAlternateLinks()}
+        {GenerateAlternateLinks()}
       </Head>
       <div className={styles.error_page}>
         <div className={styles.error_back} onClick={() => router.back()}>

@@ -2,6 +2,7 @@ import { AuthProvider } from "@/components/context/AuthContext";
 import { AuthGuard } from "@/components/guard/authGuard";
 import "@/styles/fonts.css";
 import "@/styles/globals.css";
+import { NextPage } from "next";
 import { langConvert } from "@/utils/converts";
 import { getCookie } from "cookies-next";
 import { appWithTranslation, useTranslation } from "next-i18next";
@@ -9,7 +10,12 @@ import type { AppProps } from "next/app";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 
-function App({ Component, pageProps }: AppProps & { Component: any }) {
+function App({
+  Component,
+  pageProps,
+}: AppProps & {
+  Component: NextPage & { requireAuth?: boolean };
+}) {
   const { i18n } = useTranslation();
   const router = useRouter();
 
@@ -30,6 +36,7 @@ function App({ Component, pageProps }: AppProps & { Component: any }) {
         { locale: lang }
       );
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

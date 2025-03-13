@@ -44,10 +44,10 @@ export default function Document({ locale }: { locale: string }) {
           type="font/woff2"
           crossOrigin="anonymous"
         />
-        <meta http-equiv="X-Content-Type-Options" content="nosniff" />
-        {/* <meta http-equiv="Strict-Transport-Security" content="max-age=31536000; includeSubDomains"/> */}
+        <meta httpEquiv="X-Content-Type-Options" content="nosniff" />
+        {/* <meta httpEquiv="Strict-Transport-Security" content="max-age=31536000; includeSubDomains"/> */}
         <meta
-          http-equiv="Content-Security-Policy"
+          httpEquiv="Content-Security-Policy"
           content={`default-src 'self'; script-src 'self' ${process.env.SITE_URL} ${process.env.API_URL}; connect-src 'self' ${process.env.API_URL}; style-src 'self' 'unsafe-inline'; object-src 'none';`}
         />
       </Head>

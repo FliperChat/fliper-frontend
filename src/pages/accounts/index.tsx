@@ -5,7 +5,7 @@ import SiteIcon from "@/components/icons/site/siteIcon";
 import { useRouter } from "next/router";
 import { useTranslation } from "next-i18next";
 import Head from "next/head";
-import generateAlternateLinks from "@/components/alternate/alternate";
+import GenerateAlternateLinks from "@/components/alternate/alternate";
 
 function Acconts() {
   const router = useRouter();
@@ -40,7 +40,7 @@ function Acconts() {
           content={`${process.env.SITE_URL}/android-chrome-192x192.png`}
         />
         <meta name="robots" content="noindex, nofollow" />
-        {generateAlternateLinks()}
+        {GenerateAlternateLinks()}
       </Head>
       <AuthComponent>
         <SiteIcon style={{ marginBottom: "40px" }} />
