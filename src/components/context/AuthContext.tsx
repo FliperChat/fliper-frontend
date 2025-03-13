@@ -25,7 +25,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const logout = () => {
     deleteCookie("at");
     setIsAuthenticated(false);
-    router.push("/accounts/signin");
+    router.push("/accounts");
   };
 
   return (

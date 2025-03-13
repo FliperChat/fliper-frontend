@@ -1,0 +1,16 @@
+.icon_site {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  user-select: none;
+}
+
+.icon_title {
+  font-family: "Jua";
+  font-size: 80px;
+}
+
+.icon_image {
+  transform: translate3d(0, 10px, 0);
+}

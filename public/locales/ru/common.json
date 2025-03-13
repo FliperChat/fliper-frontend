@@ -1,1 +1,11 @@
-{}
+{
+  "not_found": {
+    "meta": {
+      "title": "Page not found | Fliper",
+      "description": "Something went wrong and we couldn't find this page, please try again later or contact the owner.",
+      "keywords": "404, not_found, не_найдено, ошибка, плохо, nf, flip, fliper, error, bad"
+    },
+    "back": "Вернуться",
+    "text": "Не найдено"
+  }
+}

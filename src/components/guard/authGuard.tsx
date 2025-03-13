@@ -8,7 +8,7 @@ export function AuthGuard({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     if (!auth?.isAuthenticated) {
-      router.push("/accounts/signin");
+      router.push("/accounts");
     }
   }, [auth?.isAuthenticated, router]);
 

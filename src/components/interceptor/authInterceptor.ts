@@ -60,7 +60,7 @@ api.interceptors.response.use(
           console.error("Refresh token expired", err);
           deleteCookie("at");
           deleteCookie("rt");
-          window.location.href = "/accounts/signin";
+          window.location.href = "/accounts";
           return Promise.reject(err);
         } finally {
           isRefreshing = false;

@@ -1,6 +1,6 @@
 :root {
   font-family: "Inter", sans-serif;
-  /* --background: #ffffff;
+  /* --background: #ebebeb;
   --foreground: #171717; */
 }
 
@@ -24,6 +24,7 @@ body {
 body {
   /* color: var(--foreground);
   background: var(--background); */
+  background: #ebebeb;
 }
 
 * {
@@ -45,4 +46,66 @@ a {
 
 h1 {
   font-size: 40px;
+}
+
+button {
+  border: 0;
+  cursor: pointer;
+}
+
+.button_ebg,
+.button_bg {
+  border-radius: 15px;
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.button_bg {
+  background: #48d824;
+  box-shadow: -350px 0 250px -120px #10d0ea inset;
+
+  color: #ebebeb;
+
+  transition: 0.2s ease-out;
+}
+.button_bg:hover {
+  background: #31ab3a;
+  box-shadow: -350px 0 250px -120px #0ea6b6 inset;
+}
+
+.button_ebg {
+  position: relative;
+
+  background: #ebebeb;
+  color: #2f2f2f;
+  transition: 0.2s;
+}
+.button_ebg::after {
+  content: "";
+
+  position: absolute;
+  top: -1px;
+  left: -1px;
+
+  height: calc(100% + 1.5px);
+  width: calc(100% + 2px);
+
+  background: #48d824;
+  box-shadow: -350px 0 250px -120px #10d0ea inset;
+  background-size: 300% 300%;
+
+  border-radius: 15px;
+
+  z-index: -1;
+
+  transition: 0.2s;
+}
+.button_ebg:hover {
+  color: #ebebeb;
+
+  background: transparent;
+}
+.button_ebg:hover::after {
+  background: rgba(72, 216, 36, 0.5);
+  box-shadow: -350px 0 150px -120px rgba(16, 208, 234, 0.6) inset;
 }

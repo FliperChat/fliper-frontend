@@ -1,0 +1,14 @@
+{
+  "main": {
+    "meta": {
+      "title": "Welcome | Fliper",
+      "keywords": "flip, fliper, chat, message, call, welcome"
+    },
+    "text": "Fast, reliable social network for everyone",
+    "btn1": "Sign in",
+    "btn2": "Sign up"
+  },
+  "login": {},
+  "reg": {},
+  "forget": {}
+}
