@@ -1,10 +1,6 @@
 import Head from "next/head";
-import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-// import { useTranslation } from "next-i18next";
 
 function Home() {
-  // const { t } = useTranslation();
-
   return (
     <>
       <Head>
@@ -21,11 +17,3 @@ function Home() {
 Home.requireAuth = true;
 
 export default Home;
-
-export async function getStaticProps({ locale }: { locale: string }) {
-  return {
-    props: {
-      ...(await serverSideTranslations(locale)),
-    },
-  };
-}

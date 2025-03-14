@@ -1,10 +1,9 @@
 import { useRouter } from "next/router";
-import { i18n } from "../../../next-i18next.config";
 import { JSX } from "react";
+import { LOCALES } from "@/utils/constants";
 
 const GenerateAlternateLinks = () => {
   const { asPath } = useRouter();
-  const languages = i18n.locales;
   const siteUrl = process.env.SITE_URL;
 
   const alternates: JSX.Element[] = [
@@ -17,7 +16,7 @@ const GenerateAlternateLinks = () => {
   ];
 
   alternates.push(
-    ...languages.map((lang) => {
+    ...LOCALES.map((lang) => {
       const langPath = `/${lang}${asPath}`;
       return (
         <link

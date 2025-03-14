@@ -9,3 +9,10 @@ export interface AuthContextType {
   login: (data: { token: string; refresh: string }) => void;
   logout: () => void;
 }
+
+export type TranslationContextType = {
+  translations: TranslationType;
+  lang: string;
+};
+
+export type TranslationType = Record<string, Record<string, string>>;

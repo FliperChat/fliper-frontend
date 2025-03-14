@@ -1,11 +1,13 @@
 import AuthComponent from "@/components/auth/authComponent";
-import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import styles from "./accounts.module.scss";
 import SiteIcon from "@/components/icons/site/siteIcon";
 import { useRouter } from "next/router";
-import { useTranslation } from "next-i18next";
 import Head from "next/head";
 import GenerateAlternateLinks from "@/components/alternate/alternate";
+import { GetServerSideProps } from "next";
+import { getLang } from "@/utils/multi";
+import { serverSideTranslations } from "@/libs/i18n";
+import { useTranslation } from "@/hooks/useTranslations";
 
 function Acconts() {
   const router = useRouter();
@@ -68,10 +70,14 @@ Acconts.requireAuth = false;
 
 export default Acconts;
 
-export async function getStaticProps({ locale }: { locale: string }) {
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  const lng = getLang(context);
+  const translations = await serverSideTranslations(lng, ["authentication"]);
+
   return {
     props: {
-      ...(await serverSideTranslations(locale, ["authentication"])),
+      translations,
+      lang: lng,
     },
   };
-}
+};

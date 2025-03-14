@@ -1,10 +1,10 @@
 import { Html, Head, Main, NextScript } from "next/document";
 
-export default function Document({ locale }: { locale: string }) {
+export default function Document({ lang }: { lang: string }) {
   return (
-    <Html lang={locale}>
+    <Html lang={lang}>
       <Head>
-        <meta name="language" content={locale} />
+        <meta name="language" content={lang} />
         <meta charSet="UTF-8" />
         <link rel="icon" type="image/x-icon" href="/favicon.ico" />
         <link rel="manifest" href="/site.webmanifest" />
@@ -28,7 +28,7 @@ export default function Document({ locale }: { locale: string }) {
         <meta name="msapplication-TileColor" content="#2F2F2F" />
         <meta name="theme-color" content="#2F2F2F" />
         <meta property="og:site_name" content="Fliper" />
-        <meta property="og:locale" content={locale} />
+        <meta property="og:locale" content={lang} />
         <meta name="twitter:site" content={process.env.TWITTER} />
         <meta
           name="apple-mobile-web-app-status-bar-style"
@@ -40,6 +40,13 @@ export default function Document({ locale }: { locale: string }) {
         <link
           rel="preload"
           href={`${process.env.SITE_URL}/assets/fonts/Jua/Jua-Regular.woff2`}
+          as="font"
+          type="font/woff2"
+          crossOrigin="anonymous"
+        />
+        <link
+          rel="preload"
+          href={`${process.env.SITE_URL}/assets/icons/siteIcon.svg`}
           as="font"
           type="font/woff2"
           crossOrigin="anonymous"

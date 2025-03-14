@@ -1,10 +1,12 @@
 import Image from "next/image";
 import { useRouter } from "next/router";
 import styles from "./404.module.scss";
-import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import { useTranslation } from "next-i18next";
 import Head from "next/head";
 import GenerateAlternateLinks from "@/components/alternate/alternate";
+import { GetServerSideProps } from "next";
+import { getLang } from "@/utils/multi";
+import { useTranslation } from "@/hooks/useTranslations";
+import { serverSideTranslations } from "@/libs/i18n";
 
 function NotFound() {
   const router = useRouter();
@@ -77,10 +79,14 @@ NotFound.requireAuth = false;
 
 export default NotFound;
 
-export async function getStaticProps({ locale }: { locale: string }) {
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  const lng = getLang(context);
+  const translations = await serverSideTranslations(lng, ["common"]);
+
   return {
     props: {
-      ...(await serverSideTranslations(locale, ["common"])),
+      translations,
+      lang: lng,
     },
   };
-}
+};
