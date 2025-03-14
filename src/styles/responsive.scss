@@ -1,0 +1,11 @@
+@mixin keyframes($name) {
+  @keyframes #{$name} {
+    @content;
+  }
+}
+
+@mixin mobile-only {
+  @media (max-width: 520px) {
+    @content;
+  }
+}

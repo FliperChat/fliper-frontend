@@ -14,3 +14,8 @@
 .icon_image {
   transform: translate3d(0, 10px, 0);
 }
+
+body[data-theme="dark"] .icon_image {
+  filter: invert(99%) sepia(2%) saturate(580%) hue-rotate(336deg)
+    brightness(116%) contrast(95%);
+}

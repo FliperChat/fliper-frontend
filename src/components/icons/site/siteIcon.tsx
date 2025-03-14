@@ -1,5 +1,5 @@
 import Image from "next/image";
-import styles from "./siteIcon.module.css";
+import styles from "./siteIcon.module.scss";
 
 function SiteIcon(props: React.HTMLAttributes<HTMLDivElement>) {
   return (

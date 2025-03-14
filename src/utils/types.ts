@@ -1,3 +1,5 @@
+import { ThemeMode } from "./enums";
+
 export interface ProfileData {
   name: string;
   email: string;
@@ -16,3 +18,8 @@ export type TranslationContextType = {
 };
 
 export type TranslationType = Record<string, Record<string, string>>;
+
+export interface ThemeContextType {
+  theme: ThemeMode | string;
+  toggleTheme: () => void;
+}

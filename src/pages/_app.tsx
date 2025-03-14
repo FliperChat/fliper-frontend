@@ -1,4 +1,5 @@
 import { AuthProvider } from "@/components/context/AuthContext";
+import { ThemeProvider } from "@/components/context/ThemeContext";
 import { TranslationProvider } from "@/components/context/TranslationContext";
 import { AuthGuard } from "@/components/guard/authGuard";
 import "@/styles/fonts.scss";
@@ -18,15 +19,17 @@ function App({
         translations={pageProps.translations || {}}
         lang={pageProps.lang}
       >
-        <AuthProvider>
-          {Component.requireAuth ? (
-            <AuthGuard>
+        <ThemeProvider>
+          <AuthProvider>
+            {Component.requireAuth ? (
+              <AuthGuard>
+                <Component {...pageProps} />
+              </AuthGuard>
+            ) : (
               <Component {...pageProps} />
-            </AuthGuard>
-          ) : (
-            <Component {...pageProps} />
-          )}
-        </AuthProvider>
+            )}
+          </AuthProvider>
+        </ThemeProvider>
       </TranslationProvider>
     </>
   );
