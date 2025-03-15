@@ -11,6 +11,7 @@ function AuthComponent({ children }: { children: React.ReactNode }) {
           height={214}
           width={177}
           draggable={false}
+          priority
         />
       </div>
       <div className={styles.image} data-auth-img="bi2">

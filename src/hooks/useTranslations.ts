@@ -3,7 +3,7 @@ import axios from "axios";
 import { useContext, useEffect, useState } from "react";
 
 export const useTranslation = (namespace: string) => {
-  const { translations, lang } = useContext(TranslationContext);
+  const { translations, lang, setLang } = useContext(TranslationContext);
 
   const [clientTranslations, setClientTranslations] = useState(
     () => translations?.[namespace] || {}
@@ -43,5 +43,5 @@ export const useTranslation = (namespace: string) => {
       );
   }, [namespace, translations]);
 
-  return { t, lang };
+  return { t, lang, setLang };
 };

@@ -15,6 +15,7 @@ export interface AuthContextType {
 export type TranslationContextType = {
   translations: TranslationType;
   lang: string;
+  setLang: (newLang: string, namespaces: string[]) => Promise<void>;
 };
 
 export type TranslationType = Record<string, Record<string, string>>;

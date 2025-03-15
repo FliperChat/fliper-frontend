@@ -57,18 +57,12 @@ class MyDocument extends Document {
           <meta name="apple-mobile-web-app-capable" content="yes" />
           <link
             rel="preload"
-            href={`${process.env.SITE_URL}/assets/fonts/Jua/Jua-Regular.woff2`}
+            href="/assets/fonts/Jua/Jua-Regular.woff2"
             as="font"
             type="font/woff2"
             crossOrigin="anonymous"
           />
-          <link
-            rel="preload"
-            href={`${process.env.SITE_URL}/assets/icons/siteIcon.svg`}
-            as="font"
-            type="font/woff2"
-            crossOrigin="anonymous"
-          />
+          <link rel="preload" href="/assets/icons/siteIcon.svg" as="image" />
           <meta httpEquiv="X-Content-Type-Options" content="nosniff" />
           {/* <meta httpEquiv="Strict-Transport-Security" content="max-age=31536000; includeSubDomains"/> */}
           <meta

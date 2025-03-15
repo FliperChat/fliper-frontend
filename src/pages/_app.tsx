@@ -4,6 +4,7 @@ import { TranslationProvider } from "@/components/context/TranslationContext";
 import { AuthGuard } from "@/components/guard/authGuard";
 import "@/styles/fonts.scss";
 import "@/styles/globals.scss";
+import "@/styles/responsive.scss";
 import { ThemeMode } from "@/utils/enums";
 import { getCookie } from "cookies-next";
 import { NextPage } from "next";

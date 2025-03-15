@@ -246,6 +246,8 @@
     justify-content: center;
     align-items: center;
     grid-template-rows: repeat(3, 0fr);
+    z-index: 10;
+    margin-inline: 20px;
   }
 
   .auth_footer {
@@ -256,6 +258,7 @@
     margin-bottom: 30px;
     font-size: 16px;
     font-weight: 400;
+    z-index: 10;
   }
 }
 

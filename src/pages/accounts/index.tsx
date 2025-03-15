@@ -11,11 +11,19 @@ import { useTranslation } from "@/hooks/useTranslations";
 import Image from "next/image";
 import { useTheme } from "@/components/context/ThemeContext";
 import { ThemeMode } from "@/utils/enums";
+import { LOCALES } from "@/utils/constants";
 
 function Acconts() {
   const router = useRouter();
-  const { t, lang } = useTranslation("authentication");
+  const { t, lang, setLang } = useTranslation("authentication");
   const { theme, toggleTheme } = useTheme();
+
+  const switchLanguage = () => {
+    const nextIndex = (LOCALES.indexOf(lang) + 1) % LOCALES.length;
+    const nextLang = LOCALES[nextIndex];
+
+    setLang(nextLang, ["authentication"]);
+  };
 
   return (
     <>
@@ -50,7 +58,7 @@ function Acconts() {
       </Head>
       <AuthComponent>
         <div className={styles.top}>
-          <div className={styles.lang}>
+          <div className={styles.lang} onClick={switchLanguage}>
             <Image
               src="/assets/icons/lang.svg"
               alt="lang"
@@ -59,13 +67,6 @@ function Acconts() {
               draggable={false}
             />
             <span>{lang.toLocaleUpperCase()}</span>
-            <Image
-              src="/assets/icons/selectArrow.svg"
-              alt="selectArrow"
-              height={10}
-              width={10}
-              draggable={false}
-            />
           </div>
           <div className={styles.theme} onClick={toggleTheme}>
             {theme === ThemeMode.LIGHT ? (

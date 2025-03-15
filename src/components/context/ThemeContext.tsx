@@ -23,27 +23,11 @@ export function ThemeProvider({
     const newTheme =
       theme === ThemeMode.LIGHT ? ThemeMode.DARK : ThemeMode.LIGHT;
     setTheme(newTheme);
-    setCookie("theme", newTheme, { maxAge: 60 * 60 * 24 * 365 });
+    setCookie("theme", newTheme, { maxAge: 60 * 60 * 24 * 365 * 1000 });
   }
 
   useEffect(() => {
-    async function loadTheme() {
-      const prefersDarkScheme =
-        typeof window !== "undefined" &&
-        window.matchMedia &&
-        window.matchMedia("(prefers-color-scheme: dark)").matches;
-
-      const savedTheme = await getCookie("theme");
-      const initialTheme =
-        savedTheme ||
-        (prefersDarkScheme ? ThemeMode.DARK : ThemeMode.LIGHT) ||
-        ThemeMode.DARK;
-
-      setTheme(initialTheme);
-      document.body.setAttribute("data-theme", initialTheme);
-    }
-
-    loadTheme();
+    document.body.setAttribute("data-theme", theme);
   }, [theme]);
 
   return (
