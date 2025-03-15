@@ -21,8 +21,8 @@ function App({
   return (
     <>
       <TranslationProvider
-        translations={pageProps.translations || {}}
-        lang={pageProps.lang}
+        translations={pageProps?.translations || {}}
+        lang={pageProps?.lang}
       >
         <ThemeProvider initialTheme={initialTheme}>
           <AuthProvider>

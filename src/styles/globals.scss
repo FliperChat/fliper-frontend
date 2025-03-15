@@ -32,6 +32,10 @@ h1 {
   font-size: 40px;
 }
 
+img {
+  user-select: none;
+}
+
 button {
   border: 0;
   cursor: pointer;

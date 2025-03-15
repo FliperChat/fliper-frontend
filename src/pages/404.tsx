@@ -3,25 +3,26 @@ import { useRouter } from "next/router";
 import styles from "./404.module.scss";
 import Head from "next/head";
 import GenerateAlternateLinks from "@/components/alternate/alternate";
-import { GetServerSideProps } from "next";
-import { getLang } from "@/utils/multi";
-import { useTranslation } from "@/hooks/useTranslations";
-import { serverSideTranslations } from "@/libs/i18n";
 
 function NotFound() {
   const router = useRouter();
-  const { t } = useTranslation("common");
 
   return (
     <>
       <Head>
-        <title>{t("not_found.meta.title")}</title>
-        <meta name="description" content={t("not_found.meta.description")} />
-        <meta name="keywords" content={t("not_found.meta.keywords")} />
-        <meta property="og:title" content={t("not_found.meta.title")} />
+        <title>Page not found | Fliper</title>
+        <meta
+          name="description"
+          content="Something went wrong and we couldn't find this page, please try again later or contact the owner."
+        />
+        <meta
+          name="keywords"
+          content="404, not_found, nf, flip, fliper, error, bad"
+        />
+        <meta property="og:title" content="Page not found | Fliper" />
         <meta
           property="og:description"
-          content={t("not_found.meta.description")}
+          content="Something went wrong and we couldn't find this page, please try again later or contact the owner."
         />
         <meta
           property="og:image"
@@ -37,10 +38,10 @@ function NotFound() {
           content={process.env.SITE_URL + router.asPath}
         />
         <meta name="twitter:card" content="summary" />
-        <meta name="twitter:title" content={t("not_found.meta.title")} />
+        <meta name="twitter:title" content="Page not found | Fliper" />
         <meta
           name="twitter:description"
-          content={t("not_found.meta.description")}
+          content="Something went wrong and we couldn't find this page, please try again later or contact the owner."
         />
         <meta
           name="twitter:image"
@@ -56,8 +57,9 @@ function NotFound() {
             alt="arrowLeftIcon"
             width={10}
             height={15}
+            draggable={false}
           />
-          <span>{t("not_found.back")}</span>
+          <span>Back</span>
         </div>
         <div className={styles.error_block}>
           <h1 className={styles.error_title}>404</h1>
@@ -67,8 +69,9 @@ function NotFound() {
             width={100}
             height={100}
             className={styles.error_image}
+            draggable={false}
           />
-          <p className={styles.error_description}>{t("not_found.text")}</p>
+          <p className={styles.error_description}>Not found</p>
         </div>
       </div>
     </>
@@ -78,15 +81,3 @@ function NotFound() {
 NotFound.requireAuth = false;
 
 export default NotFound;
-
-export const getServerSideProps: GetServerSideProps = async (context) => {
-  const lng = getLang(context);
-  const translations = await serverSideTranslations(lng, ["common"]);
-
-  return {
-    props: {
-      translations,
-      lang: lng,
-    },
-  };
-};

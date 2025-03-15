@@ -30,7 +30,7 @@ export const useTranslation = (namespace: string) => {
     }
 
     axios
-      .get(`/locales/${lang}/${namespace}.json`)
+      .get(`/locales/${lang || "en"}/${namespace}.json`)
       .then((res) => {
         setClientTranslations(res.data);
         sessionStorage?.setItem(
