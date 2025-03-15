@@ -8,10 +8,14 @@ import { GetServerSideProps } from "next";
 import { getLang } from "@/utils/multi";
 import { serverSideTranslations } from "@/libs/i18n";
 import { useTranslation } from "@/hooks/useTranslations";
+import Image from "next/image";
+import { useTheme } from "@/components/context/ThemeContext";
+import { ThemeMode } from "@/utils/enums";
 
 function Acconts() {
   const router = useRouter();
-  const { t } = useTranslation("authentication");
+  const { t, lang } = useTranslation("authentication");
+  const { theme, toggleTheme } = useTheme();
 
   return (
     <>
@@ -45,6 +49,44 @@ function Acconts() {
         {GenerateAlternateLinks()}
       </Head>
       <AuthComponent>
+        <div className={styles.top}>
+          <div className={styles.lang}>
+            <Image
+              src="/assets/icons/lang.svg"
+              alt="lang"
+              height={25}
+              width={25}
+              draggable={false}
+            />
+            <span>{lang.toLocaleUpperCase()}</span>
+            <Image
+              src="/assets/icons/selectArrow.svg"
+              alt="selectArrow"
+              height={10}
+              width={10}
+              draggable={false}
+            />
+          </div>
+          <div className={styles.theme} onClick={toggleTheme}>
+            {theme === ThemeMode.LIGHT ? (
+              <Image
+                src="/assets/icons/themeLight.svg"
+                alt="theme-light"
+                height={25}
+                width={25}
+                draggable={false}
+              />
+            ) : (
+              <Image
+                src="/assets/icons/themeDark.svg"
+                alt="theme-dark"
+                height={25}
+                width={25}
+                draggable={false}
+              />
+            )}
+          </div>
+        </div>
         <SiteIcon style={{ marginBottom: "40px" }} />
         <p className={styles.description}>{t("main.text")}</p>
         <div className={styles.button_block}>

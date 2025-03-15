@@ -1,11 +1,41 @@
+// Анимация
 @mixin keyframes($name) {
   @keyframes #{$name} {
     @content;
   }
 }
 
-@mixin mobile-only {
+// Mobile (только мобильные устройства)
+@mixin mobile {
   @media (max-width: 520px) {
+    @content;
+  }
+}
+
+// Планшеты (от 521px до 768px)
+@mixin tablet {
+  @media (min-width: 521px) and (max-width: 768px) {
+    @content;
+  }
+}
+
+// Малые ноутбуки (от 769px до 1024px)
+@mixin small-laptop {
+  @media (min-width: 769px) and (max-width: 1024px) {
+    @content;
+  }
+}
+
+// Стандартные ноутбуки и десктопы (от 1025px до 1440px)
+@mixin laptop {
+  @media (min-width: 1025px) and (max-width: 1440px) {
+    @content;
+  }
+}
+
+// Большие экраны (более 1440px)
+@mixin large-screen {
+  @media (min-width: 1441px) {
     @content;
   }
 }

@@ -14,6 +14,7 @@
     align-items: center;
     justify-content: center;
     filter: brightness(110%) opacity(0.6);
+    user-select: none;
 
     img {
       border-radius: 20px;
@@ -90,6 +91,7 @@
     border-width: 5px;
     border-style: solid;
     border-radius: 50%;
+    border-color: #ffffff;
 
     &[data-circle-type="type1"] {
       right: 2.24%;
@@ -97,8 +99,6 @@
 
       width: 70px;
       height: 70px;
-
-      border-color: #aaaaaa;
     }
 
     &[data-circle-type="type2"] {
@@ -107,8 +107,6 @@
 
       width: 59px;
       height: 59px;
-
-      border-color: #2b2b2b;
     }
 
     &[data-circle-type="type3"] {
@@ -117,8 +115,6 @@
 
       width: 65px;
       height: 65px;
-
-      border-color: #292929;
     }
 
     &[data-circle-type="type4"] {
@@ -127,8 +123,6 @@
 
       width: 65px;
       height: 65px;
-
-      border-color: #262626;
     }
 
     &[data-circle-type="type5"] {
@@ -137,8 +131,6 @@
 
       width: 26px;
       height: 26px;
-
-      border-color: #383838;
     }
 
     &[data-circle-type="type6"] {
@@ -147,8 +139,6 @@
 
       width: 31px;
       height: 31px;
-
-      border-color: #292929;
     }
 
     &[data-circle-type="type7"] {
@@ -157,8 +147,6 @@
 
       width: 42px;
       height: 42px;
-
-      border-color: #282828;
     }
 
     &[data-circle-type="type8"] {
@@ -167,8 +155,6 @@
 
       width: 49px;
       height: 49px;
-
-      border-color: #282828;
     }
 
     &[data-circle-type="type9"] {
@@ -177,8 +163,6 @@
 
       width: 26px;
       height: 26px;
-
-      border-color: #282828;
     }
 
     &[data-circle-type="type10"] {
@@ -187,8 +171,6 @@
 
       width: 26px;
       height: 26px;
-
-      border-color: #282828;
     }
 
     &[data-circle-type="type11"] {
@@ -197,8 +179,6 @@
 
       width: 65px;
       height: 65px;
-
-      border-color: #505050;
     }
 
     &[data-circle-type="type12"] {
@@ -207,21 +187,19 @@
 
       width: 65px;
       height: 65px;
-
-      border-color: #505050;
     }
   }
 
   .heart {
     position: absolute;
+    user-select: none;
+    color: #ffffff;
 
     &[data-heart-type="type1"] {
       right: 2%;
       bottom: 17.33%;
 
       transform: rotate(-32.99deg);
-
-      color: #282828;
     }
 
     &[data-heart-type="type2"] {
@@ -229,8 +207,6 @@
       bottom: 36.73%;
 
       transform: rotate(-32.99deg);
-
-      color: #282828;
     }
 
     &[data-heart-type="type3"] {
@@ -238,8 +214,6 @@
       top: 12.13%;
 
       transform: rotate(-32.99deg);
-
-      color: #3c3c3c;
     }
 
     &[data-heart-type="type4"] {
@@ -247,8 +221,6 @@
       top: 8.2%;
 
       transform: rotate(30deg);
-
-      color: #282828;
     }
 
     &[data-heart-type="type5"] {
@@ -256,8 +228,6 @@
       top: 37.54%;
 
       transform: rotate(30deg);
-
-      color: #282828;
     }
   }
 
@@ -266,7 +236,7 @@
     top: 15.31%;
     position: absolute;
     border-radius: 50%;
-    background-color: #282828;
+    background-color: #ffffff;
     width: 12px;
     height: 12px;
   }
@@ -289,6 +259,60 @@
   }
 }
 
-body[data-theme="dark"] .auth_background .image {
-  filter: brightness(50%);
+body[data-theme="dark"] .auth_background {
+  .image {
+    filter: brightness(50%);
+  }
+
+  .circle {
+    &[data-circle-type="type1"] {
+      border-color: #aaaaaa;
+    }
+
+    &[data-circle-type="type2"] {
+      border-color: #2b2b2b;
+    }
+
+    &[data-circle-type="type3"],
+    &[data-circle-type="type6"] {
+      border-color: #292929;
+    }
+
+    &[data-circle-type="type4"] {
+      border-color: #262626;
+    }
+
+    &[data-circle-type="type5"] {
+      border-color: #383838;
+    }
+
+    &[data-circle-type="type7"],
+    &[data-circle-type="type8"],
+    &[data-circle-type="type9"],
+    &[data-circle-type="type10"] {
+      border-color: #282828;
+    }
+
+    &[data-circle-type="type11"],
+    &[data-circle-type="type12"] {
+      border-color: #505050;
+    }
+  }
+
+  .heart {
+    &[data-heart-type="type1"],
+    &[data-heart-type="type2"],
+    &[data-heart-type="type4"],
+    &[data-heart-type="type5"] {
+      color: #282828;
+    }
+
+    &[data-heart-type="type3"] {
+      color: #3c3c3c;
+    }
+  }
+
+  .point {
+    background-color: #282828;
+  }
 }
