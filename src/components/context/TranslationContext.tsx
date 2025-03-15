@@ -30,6 +30,8 @@ export const TranslationProvider = ({
     try {
       const newTranslations: Record<string, any> = {};
 
+      sessionStorage.clear();
+
       for (const ns of namespaces) {
         const res = await axios.get(`/locales/${newLang}/${ns}.json`);
         newTranslations[ns] = await res.data;

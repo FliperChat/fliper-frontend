@@ -9,6 +9,14 @@
   top: 30px;
   right: 30px;
 
+  @include mobile {
+    gap: unset;
+    justify-content: space-between;
+    right: 0;
+    left: 0;
+    margin-inline: 20px;
+  }
+
   .lang,
   .theme {
     background-color: #fefefe;
