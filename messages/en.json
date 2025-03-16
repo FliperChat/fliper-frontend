@@ -1,0 +1,25 @@
+{
+  "Auth": {
+    "main": {
+      "meta": {
+        "title": "Welcome | Fliper",
+        "keywords": "flip, fliper, chat, message, call, welcome"
+      },
+      "text": "Fast, reliable social network for everyone",
+      "btn1": "Sign in",
+      "btn2": "Sign up"
+    },
+    "login": {},
+    "reg": {},
+    "forget": {}
+  },
+  "NotFound": {
+    "meta": {
+      "title": "Page not found | Fliper",
+      "description": "Something went wrong and we couldn't find this page, please try again later or contact the owner.",
+      "keywords": "404, not_found, nf, flip, fliper, error, bad"
+    },
+    "back": "Back",
+    "text": "Not found"
+  }
+}

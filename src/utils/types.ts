@@ -1,4 +1,8 @@
-import { ThemeMode } from "./enums";
+import { locales } from "./constants";
+
+export type Locale = (typeof locales)[number];
+
+export type Themes = "dark" | "light";
 
 export interface ProfileData {
   name: string;
@@ -21,6 +25,6 @@ export type TranslationContextType = {
 export type TranslationType = Record<string, Record<string, string>>;
 
 export interface ThemeContextType {
-  theme: ThemeMode | string;
+  theme: Themes | string;
   toggleTheme: () => void;
 }

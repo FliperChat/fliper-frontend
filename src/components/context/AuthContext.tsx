@@ -1,13 +1,25 @@
+"use client";
+
 import { AuthContextType } from "@/utils/types";
 import { getCookie } from "cookies-next";
 import { deleteCookie, setCookie } from "cookies-next/client";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import { createContext, useContext, useEffect, useState } from "react";
 
-export const AuthContext = createContext<AuthContextType | null>(null);
+export const AuthContext = createContext<AuthContextType>({
+  isAuthenticated: false,
+  login: () => {},
+  logout: () => {},
+});
 
-export function AuthProvider({ children }: { children: React.ReactNode }) {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+export function AuthProvider({
+  children,
+  auth,
+}: {
+  children: React.ReactNode;
+  auth: string | undefined;
+}) {
+  const [isAuthenticated, setIsAuthenticated] = useState(!!auth || false);
   const router = useRouter();
 
   useEffect(() => {
@@ -24,6 +36,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const logout = () => {
     deleteCookie("at");
+    deleteCookie("rt");
     setIsAuthenticated(false);
     router.push("/accounts");
   };

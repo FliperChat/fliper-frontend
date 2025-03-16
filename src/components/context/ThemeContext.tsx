@@ -1,10 +1,11 @@
-import { ThemeMode } from "@/utils/enums";
-import { ThemeContextType } from "@/utils/types";
-import { getCookie, setCookie } from "cookies-next";
+"use client";
+
+import { ThemeContextType, Themes } from "@/utils/types";
+import { setCookie } from "cookies-next";
 import { createContext, useContext, useEffect, useState } from "react";
 
 export const ThemeContext = createContext<ThemeContextType>({
-  theme: ThemeMode.DARK,
+  theme: "dark",
   toggleTheme: () => {},
 });
 
@@ -13,15 +14,12 @@ export function ThemeProvider({
   initialTheme,
 }: {
   children: React.ReactNode;
-  initialTheme: ThemeMode | string;
+  initialTheme: Themes | string;
 }) {
-  const [theme, setTheme] = useState<ThemeMode | string>(
-    initialTheme || ThemeMode.DARK
-  );
+  const [theme, setTheme] = useState<Themes | string>(initialTheme || "dark");
 
   function toggleTheme() {
-    const newTheme =
-      theme === ThemeMode.LIGHT ? ThemeMode.DARK : ThemeMode.LIGHT;
+    const newTheme = theme === "light" ? "dark" : "light";
     setTheme(newTheme);
     setCookie("theme", newTheme, { maxAge: 60 * 60 * 24 * 365 * 1000 });
   }
