@@ -1,0 +1,85 @@
+.input {
+  background: #ffffff;
+  box-shadow: 0px 4px 29px -15px rgba(0, 0, 0, 0.25);
+  border-radius: 15px;
+  border: 1px solid transparent;
+
+  padding: 20px;
+
+  font-weight: 400;
+  font-size: 16px;
+
+  &::placeholder {
+    color: #939292;
+  }
+
+  &:-webkit-autofill,
+  &:-webkit-autofill:hover,
+  &:-webkit-autofill:focus,
+  &:-webkit-autofill:active {
+    -webkit-text-fill-color: #2f2f2f;
+    box-shadow: inset 0 0 20px 999px #ffffff,
+      0px 4px 29px -15px rgba(0, 0, 0, 0.25);
+  }
+}
+
+.input:where(.inp_error) {
+  border: 1px solid #9d3535;
+  color: #9d3535;
+
+  &::placeholder {
+    color: #9d3535;
+  }
+}
+
+.error {
+  margin-top: 5px;
+  margin-left: 10px;
+
+  font-weight: 300;
+  font-size: 16px;
+
+  color: #9d3535;
+}
+
+body[data-theme="dark"] .inp_field_error:not(:has(.input_field)) {
+  background: #2f2f2f;
+  box-shadow: unset;
+  background-size: unset;
+}
+
+body[data-theme="dark"] .input_field {
+  padding: 1px;
+
+  background: #48d824;
+  box-shadow: -350px 0 250px -120px #10d0ea inset;
+  background-size: 300% 300%;
+
+  border-radius: 15px;
+}
+
+body[data-theme="dark"] .input {
+  background: #2f2f2f;
+  color: #f8f8f8;
+  box-shadow: none;
+
+  &::placeholder {
+    color: #f8f8f8;
+  }
+
+  &:-webkit-autofill,
+  &:-webkit-autofill:hover,
+  &:-webkit-autofill:focus,
+  &:-webkit-autofill:active {
+    -webkit-text-fill-color: #f8f8f8;
+    box-shadow: inset 0 0 20px 999px #2f2f2f, 0px 4px 29px -15px #2f2f2f;
+  }
+}
+
+body[data-theme="dark"] .input:where(.inp_error) {
+  color: #9d3535;
+
+  &::placeholder {
+    color: #9d3535;
+  }
+}

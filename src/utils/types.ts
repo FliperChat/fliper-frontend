@@ -28,3 +28,21 @@ export interface ThemeContextType {
   theme: Themes | string;
   toggleTheme: () => void;
 }
+
+export interface RegStepOne {
+  name: string;
+  phone: string;
+  date: Date | string;
+}
+
+export interface RegStepTwo {
+  image: File;
+  login: string;
+  email: string;
+  password: string;
+  passwordConfirm: string;
+}
+
+export interface RegAllStep extends RegStepOne, RegStepTwo {
+  captcha: string;
+}

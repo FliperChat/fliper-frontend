@@ -9,8 +9,34 @@
       "btn1": "Sign in",
       "btn2": "Sign up"
     },
-    "login": {},
-    "reg": {},
+    "login": {
+      "meta": {
+        "title": "Sign in | Fliper",
+        "description": "Authorize on Fliper to share moments, photos and connect with friends. Join Fliper's unique social network to stay connected to the world.",
+        "keywords": "Fliper, social network, authorization, Fliper login, social networking, photos, sharing moments, communication, social media"
+      }
+    },
+    "reg": {
+      "meta": {
+        "title": "Sign up | Fliper",
+        "description": "Sign up for Fliper to start sharing photos, connecting with friends and finding like-minded people. Join the Fliper social network now!",
+        "keywords": "Fliper, sign up, create an account, social network, photos, sharing moments, socializing, new account, join Fliper"
+      },
+      "stepOne": {
+        "title": "Registration",
+        "name": "Name",
+        "phone": "Phone",
+        "date": "Date of birth",
+        "next": "Next",
+        "cancel": "Cancel",
+        "errors": {
+          "nameMin": "The name must contain a minimum of 2 characters",
+          "invalidPhone": "Enter the correct phone number",
+          "requiredDate": "Select a date",
+          "invalidDate": "Incorrect date format"
+        }
+      }
+    },
     "forget": {}
   },
   "NotFound": {

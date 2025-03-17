@@ -1,0 +1,24 @@
+.title {
+  margin-bottom: 40px;
+  text-align: center;
+}
+
+.form {
+  display: grid;
+  gap: 20px;
+  width: 450px;
+
+  input {
+    width: 100%;
+  }
+
+  button {
+    height: 48px;
+    margin-top: 35px;
+  }
+}
+
+.cancel {
+  text-align: center;
+  margin-top: 20px;
+}

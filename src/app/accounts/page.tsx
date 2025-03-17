@@ -1,4 +1,3 @@
-import AuthComponent from "@/components/auth/authComponent";
 import { getTranslations } from "next-intl/server";
 import { headers } from "next/headers";
 import { Metadata } from "next";
@@ -43,11 +42,7 @@ export async function generateMetadata(): Promise<Metadata> {
 async function Acconts() {
   const lang = await getUserLocale();
 
-  return (
-    <AuthComponent>
-      <ClientAcconts lang={lang} />
-    </AuthComponent>
-  );
+  return <ClientAcconts lang={lang} />;
 }
 
 export default Acconts;
