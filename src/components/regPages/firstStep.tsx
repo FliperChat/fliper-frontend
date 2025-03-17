@@ -13,10 +13,26 @@ export const getStepOneSchema = (t: (key: string) => string) =>
     phone: z.string().refine(validator.isMobilePhone, {
       message: t("errors.invalidPhone"),
     }),
-    date: z.coerce.date({
-      required_error: t("errors.requiredDate"),
-      invalid_type_error: t("errors.invalidDate"),
-    }),
+    date: z.coerce
+      .date({
+        required_error: t("errors.requiredDate"),
+        invalid_type_error: t("errors.invalidDate"),
+      })
+      .refine(
+        (date) => {
+          const today = new Date();
+          const minAgeDate = new Date(
+            today.getFullYear() - 18,
+            today.getMonth(),
+            today.getDate()
+          );
+          return date <= minAgeDate;
+        },
+        {
+          message: t("errors.birthdayMinAge"),
+          path: ["birthday"],
+        }
+      ),
   });
 
 function RegistrationFirstStep({
@@ -32,11 +48,7 @@ function RegistrationFirstStep({
 
   const stepOneSchema = getStepOneSchema(t);
 
-  const [formData, setFormData] = useState<RegStepOne>({
-    name: data.name || "",
-    phone: data.phone || "",
-    date: data.date || "",
-  });
+  const [formData, setFormData] = useState<RegStepOne>(data);
   const [errors, setErrors] = useState<{ [key: string]: string }>();
 
   function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
@@ -64,7 +76,10 @@ function RegistrationFirstStep({
         date: new Date(formData?.date as string),
       });
 
-      setData(formData);
+      setData((prev) => ({
+        ...prev,
+        ...formData,
+      }));
       setStep("two");
     } catch (error) {
       if (error instanceof z.ZodError) {
@@ -84,7 +99,7 @@ function RegistrationFirstStep({
       <h1 className={styles.title}>{t("title")}</h1>
       <form onSubmit={handleSubmit} className={styles.form}>
         <Input
-          type="name"
+          type="text"
           name="name"
           placeholder={t("name")}
           value={formData.name}

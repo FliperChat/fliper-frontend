@@ -30,10 +30,28 @@
         "next": "Next",
         "cancel": "Cancel",
         "errors": {
-          "nameMin": "The name must contain a minimum of 2 characters",
-          "invalidPhone": "Enter the correct phone number",
+          "nameMin": "The name must have at least 2 characters",
+          "invalidPhone": "Enter a valid phone number",
           "requiredDate": "Select a date",
-          "invalidDate": "Incorrect date format"
+          "invalidDate": "Invalid date format",
+          "birthdayMinAge": "You must be 18 or older"
+        }
+      },
+      "stepTwo": {
+        "upload": "Download the photo",
+        "login": "Nickname",
+        "email": "E-Mail",
+        "password": "Password",
+        "passwordConfirm": "Repeat the password",
+        "next": "Next",
+        "back": "Back",
+        "errors": {
+          "loginMin": "Login must have at least 5 characters",
+          "emailCorrect": "Enter a valid email address",
+          "passwordMin": "Password must have at least 8 characters",
+          "passwordLowercase": "Password must include at least one lowercase letter",
+          "passwordNumber": "Password must include at least one digit",
+          "passwordsMatch": "Passwords do not match"
         }
       },
       "stepEnd": {

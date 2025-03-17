@@ -31,9 +31,27 @@
         "cancel": "Скасувати",
         "errors": {
           "nameMin": "Ім'я має містити мінімум 2 символи",
-          "invalidPhone": "Введіть коректний номер телефону",
-          "requiredDate": "Виберіть дату",
-          "invalidDate": "Некоректний формат дати"
+          "invalidPhone": "Некоректний телефон",
+          "requiredDate": "Оберіть дату",
+          "invalidDate": "Некоректна дата",
+          "birthdayMinAge": "Вам має бути не менше 18 років"
+        }
+      },
+      "stepTwo": {
+        "upload": "Завантажити фото",
+        "login": "Нікнейм",
+        "email": "E-Mail",
+        "password": "Пароль",
+        "passwordConfirm": "Повторіть пароль",
+        "next": "Далі",
+        "back": "Повернутися",
+        "errors": {
+          "loginMin": "Логін має містити мінімум 5 символів",
+          "emailCorrect": "Некоректний email",
+          "passwordMin": "Пароль має містити мінімум 8 символів",
+          "passwordLowercase": "Потрібна хоча б одна мала літера",
+          "passwordNumber": "Потрібна хоча б одна цифра",
+          "passwordsMatch": "Паролі не збігаються"
         }
       },
       "stepEnd": {
