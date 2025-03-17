@@ -35,6 +35,11 @@
           "requiredDate": "Select a date",
           "invalidDate": "Incorrect date format"
         }
+      },
+      "stepEnd": {
+        "title": "Confirmation",
+        "content": "A confirmation email will be sent to your email: {email}",
+        "btn": "Change email address"
       }
     },
     "forget": {}

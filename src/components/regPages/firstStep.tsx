@@ -1,8 +1,8 @@
 import { z } from "zod";
 import validator from "validator";
 import Link from "next/link";
-import { useState } from "react";
-import { RegStepOne } from "@/utils/types";
+import { Dispatch, SetStateAction, useState } from "react";
+import { RegAllStep, RegStepOne } from "@/utils/types";
 import { Input } from "../input/customInput";
 import { useTranslations } from "next-intl";
 import styles from "./reg.module.scss";
@@ -21,17 +21,21 @@ export const getStepOneSchema = (t: (key: string) => string) =>
 
 function RegistrationFirstStep({
   setStep,
+  data,
+  setData,
 }: {
   setStep: (step: "two") => void;
+  data: RegAllStep;
+  setData: Dispatch<SetStateAction<RegAllStep>>;
 }) {
   const t = useTranslations("Auth.reg.stepOne");
 
   const stepOneSchema = getStepOneSchema(t);
 
   const [formData, setFormData] = useState<RegStepOne>({
-    name: "",
-    phone: "",
-    date: "",
+    name: data.name || "",
+    phone: data.phone || "",
+    date: data.date || "",
   });
   const [errors, setErrors] = useState<{ [key: string]: string }>();
 
@@ -57,9 +61,10 @@ function RegistrationFirstStep({
     try {
       stepOneSchema.parse({
         ...formData,
-        date: new Date(formData.date),
+        date: new Date(formData?.date as string),
       });
 
+      setData(formData);
       setStep("two");
     } catch (error) {
       if (error instanceof z.ZodError) {
@@ -102,6 +107,10 @@ function RegistrationFirstStep({
           onChange={handleChange}
           error={errors?.date}
         />
+        <div className={styles.pagination}>
+          <div className={styles.active}></div>
+          <div className={styles.not_active}></div>
+        </div>
         <button type="submit" className="button_bg">
           {t("next")}
         </button>

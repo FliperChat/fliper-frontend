@@ -30,19 +30,19 @@ export interface ThemeContextType {
 }
 
 export interface RegStepOne {
-  name: string;
-  phone: string;
-  date: Date | string;
+  name?: string;
+  phone?: string;
+  date?: Date | string;
 }
 
 export interface RegStepTwo {
-  image: File;
-  login: string;
-  email: string;
-  password: string;
-  passwordConfirm: string;
+  image?: File;
+  login?: string;
+  email?: string;
+  password?: string;
+  passwordConfirm?: string;
 }
 
 export interface RegAllStep extends RegStepOne, RegStepTwo {
-  captcha: string;
+  captcha?: string;
 }

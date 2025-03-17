@@ -91,7 +91,6 @@ function AuthComponent({ children }: { children: React.ReactNode }) {
       <div className={styles.circle} data-circle-type="type3"></div>
       <div className={styles.circle} data-circle-type="type4"></div>
       <div className={styles.circle} data-circle-type="type5"></div>
-      <div className={styles.circle} data-circle-type="type6"></div>
       <div className={styles.circle} data-circle-type="type7"></div>
       <div className={styles.circle} data-circle-type="type8"></div>
       <div className={styles.circle} data-circle-type="type9"></div>
