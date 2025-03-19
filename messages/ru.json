@@ -39,6 +39,8 @@
       },
       "stepTwo": {
         "upload": "Загрузить фото",
+        "uploaded": "Изменить фото",
+        "crop": "Обрезать",
         "login": "Никнейм",
         "email": "E-Mail",
         "password": "Пароль",

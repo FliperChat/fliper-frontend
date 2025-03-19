@@ -39,6 +39,8 @@
       },
       "stepTwo": {
         "upload": "Download the photo",
+        "uploaded": "Change the photo",
+        "crop": "Crop",
         "login": "Nickname",
         "email": "E-Mail",
         "password": "Password",

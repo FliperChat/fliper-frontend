@@ -5,11 +5,12 @@ import { cookies, headers } from "next/headers";
 
 const COOKIE_NAME = "theme";
 
-export async function getTheme() {
+export async function getTheme(): Promise<"dark" | "light"> {
   return (
-    (await cookies()).get(COOKIE_NAME)?.value ||
-    (await headers()).get("Sec-CH-Prefers-Color-Scheme") ||
-    "en"
+    (((await cookies()).get(COOKIE_NAME)?.value ||
+      (await headers()).get("Sec-CH-Prefers-Color-Scheme")) as
+      | "dark"
+      | "light") || "dark"
   );
 }
 

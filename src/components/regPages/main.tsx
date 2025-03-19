@@ -10,16 +10,25 @@ function SignUpMain() {
   const [step, setStep] = useState<"one" | "two" | "end">("one");
   const [data, setData] = useState<RegAllStep>({});
 
-  if (step === "two")
-    return (
-      <RegistrationSecondStep setStep={setStep} data={data} setData={setData} />
-    );
-  else if (step === "end")
-    return <RegistrationLastStep setStep={setStep} data={data} />;
-  else
-    return (
-      <RegistrationFirstStep setStep={setStep} data={data} setData={setData} />
-    );
+  return (
+    <>
+      {step === "two" ? (
+        <RegistrationSecondStep
+          setStep={setStep}
+          data={data}
+          setData={setData}
+        />
+      ) : step === "end" ? (
+        <RegistrationLastStep setStep={setStep} data={data} />
+      ) : (
+        <RegistrationFirstStep
+          setStep={setStep}
+          data={data}
+          setData={setData}
+        />
+      )}
+    </>
+  );
 }
 
 export default SignUpMain;

@@ -6,6 +6,10 @@ import { z } from "zod";
 import { useTranslations } from "next-intl";
 import { Input, InputWithItem } from "../input/customInput";
 import Image from "next/image";
+import { changeScrollActive } from "@/services/scroll";
+import AvatarModal from "../modals/avatar/avatarModal";
+import axios from "axios";
+import { getCookie } from "cookies-next/client";
 
 export const getStepTwoSchema = (t: (key: string) => string) =>
   z
@@ -40,8 +44,16 @@ function RegistrationSecondStep({
 
   const fileRef = useRef<HTMLInputElement | null>(null);
 
+  const [showModal, setShowModal] = useState<boolean>(false);
+  const [image, setImage] = useState<HTMLImageElement | null>(null);
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+
   const [formData, setFormData] = useState<RegStepTwo>(data);
   const [errors, setErrors] = useState<{ [key: string]: string }>();
+
+  const croppedImageUrl = formData.image
+    ? URL.createObjectURL(formData.image)
+    : null;
 
   const [showEye, setShowEye] = useState<boolean>(false);
   const [showEye2, setShowEye2] = useState<boolean>(false);
@@ -61,6 +73,20 @@ function RegistrationSecondStep({
       }));
   }
 
+  function handleChangeFile(e: React.ChangeEvent<HTMLInputElement>) {
+    const { files } = e.target;
+
+    if (!files || files?.length < 1) return;
+
+    const img = new window.Image();
+    img.src = URL.createObjectURL(files[0]);
+    img.onload = () => {
+      setImage(img);
+      setShowModal(true);
+      changeScrollActive();
+    };
+  }
+
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setErrors({});
@@ -68,10 +94,34 @@ function RegistrationSecondStep({
     try {
       stepTwoSchema.parse(formData);
 
+      const tempData = { ...data, ...formData };
+
       setData((prev) => ({
         ...prev,
         ...formData,
       }));
+
+      const form = new FormData();
+
+      for (const key in tempData) {
+        if (data.hasOwnProperty(key)) {
+          form.append(key, data[key as keyof RegAllStep] as any);
+        }
+      }
+
+      const result = await axios.post(
+        process.env.NEXT_PUBLIC_API_URL + "/profile/signup",
+        form,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+            "X-Lang": getCookie("lang")?.toString(),
+          },
+        }
+      );
+
+      console.log(result);
+
       setStep("end");
     } catch (error) {
       if (error instanceof z.ZodError) {
@@ -88,26 +138,70 @@ function RegistrationSecondStep({
 
   return (
     <>
+      <AvatarModal
+        canvasRef={canvasRef}
+        image={image}
+        setFormData={setFormData}
+        setShowModal={setShowModal}
+        showModal={showModal}
+      />
+
       <form
         onSubmit={handleSubmit}
         className={`${styles.form} ${styles.formtwo}`}
       >
         <div className={styles.reg_block}>
-          <div className={styles.upload_img}>
-            <p>{t("upload")}</p>
-            <Image
-              src="/assets/icons/uploadReg.svg"
-              width={200}
-              height={200}
-              alt="upload_image"
-              onClick={() => fileRef?.current?.click()}
-              draggable={false}
-            />
+          <div
+            className={`${styles.upload_img} ${
+              croppedImageUrl ? styles.uploaded_img : ""
+            }`}
+          >
+            {croppedImageUrl ? (
+              <>
+                <p
+                  className={styles.uploadText}
+                  onClick={() => fileRef?.current?.click()}
+                >
+                  {t("uploaded")}
+                </p>
+                <Image
+                  src={croppedImageUrl}
+                  className={styles.croppedImg}
+                  width={200}
+                  height={200}
+                  alt="prev img"
+                  draggable={false}
+                />
+                <Image
+                  src="/assets/icons/uploadImg.svg"
+                  onClick={() => fileRef?.current?.click()}
+                  width={200}
+                  height={200}
+                  alt="uploaded_image"
+                  className={styles.borderImg}
+                  draggable={false}
+                />
+              </>
+            ) : (
+              <>
+                <p>{t("upload")}</p>
+                <Image
+                  src="/assets/icons/uploadReg.svg"
+                  width={200}
+                  height={200}
+                  className={styles.upload_icon}
+                  alt="upload_image"
+                  onClick={() => fileRef?.current?.click()}
+                  draggable={false}
+                />
+              </>
+            )}
             <input
               type="file"
               ref={fileRef}
               className={styles.fileInput}
-              accept="image/png, image/jpeg, image/jpg"
+              accept=".png, .jpeg, .jpg"
+              onChange={handleChangeFile}
               name="image"
             />
           </div>
@@ -124,13 +218,14 @@ function RegistrationSecondStep({
               type="email"
               name="email"
               placeholder={t("email")}
-              value={formData.login}
+              value={formData.email}
               onChange={handleChange}
-              error={errors?.login}
+              error={errors?.email}
             />
             <InputWithItem
               type={showEye ? "text" : "password"}
               name="password"
+              className={styles.password}
               placeholder={t("password")}
               value={formData.password}
               onChange={handleChange}
@@ -161,6 +256,7 @@ function RegistrationSecondStep({
             <InputWithItem
               type={showEye2 ? "text" : "password"}
               name="passwordConfirm"
+              className={styles.password}
               placeholder={t("passwordConfirm")}
               value={formData.passwordConfirm}
               onChange={handleChange}

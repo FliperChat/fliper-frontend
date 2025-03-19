@@ -32,11 +32,11 @@ export interface ThemeContextType {
 export interface RegStepOne {
   name?: string;
   phone?: string;
-  date?: Date | string;
+  birthDay?: Date | string;
 }
 
 export interface RegStepTwo {
-  image?: File;
+  image?: Blob;
   login?: string;
   email?: string;
   password?: string;

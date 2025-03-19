@@ -13,7 +13,7 @@ export const getStepOneSchema = (t: (key: string) => string) =>
     phone: z.string().refine(validator.isMobilePhone, {
       message: t("errors.invalidPhone"),
     }),
-    date: z.coerce
+    birthDay: z.coerce
       .date({
         required_error: t("errors.requiredDate"),
         invalid_type_error: t("errors.invalidDate"),
@@ -73,7 +73,7 @@ function RegistrationFirstStep({
     try {
       stepOneSchema.parse({
         ...formData,
-        date: new Date(formData?.date as string),
+        date: new Date(formData?.birthDay as string),
       });
 
       setData((prev) => ({
@@ -116,11 +116,11 @@ function RegistrationFirstStep({
         />
         <Input
           type="date"
-          name="date"
+          name="birthDay"
           placeholder={t("date")}
-          value={formData.date as string}
+          value={formData.birthDay as string}
           onChange={handleChange}
-          error={errors?.date}
+          error={errors?.birthDay}
         />
         <div className={styles.pagination}>
           <div className={styles.active}></div>

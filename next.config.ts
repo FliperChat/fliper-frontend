@@ -42,11 +42,14 @@ const nextConfig: NextConfig = {
             key: "Content-Security-Policy",
             value: cspHeader.replace(/\n/g, ""),
           },
+          // {
+          //   key: "Strict-Transport-Security",
+          //   value: "max-age=31536000; includeSubDomains; preload",
+          // },
         ],
       },
       {
-        source: "/:all*(svg|jpg|jpeg|png|woff2)",
-        locale: false,
+        source: "/:all*.(svg|jpg|jpeg|png|woff2)",
         headers: [
           {
             key: "Cache-Control",
@@ -55,9 +58,6 @@ const nextConfig: NextConfig = {
         ],
       },
     ];
-  },
-  images: {
-    minimumCacheTTL: 31536000,
   },
 };
 

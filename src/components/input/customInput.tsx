@@ -3,6 +3,7 @@ import styles from "./customInput.module.scss";
 export function Input({
   error = "",
   className = "",
+  value = "",
   ...props
 }: React.InputHTMLAttributes<HTMLInputElement> & {
   error?: string;
@@ -16,6 +17,7 @@ export function Input({
       >
         <input
           {...props}
+          value={value}
           className={`${className} ${styles.input} ${
             error.length > 0 ? styles.inp_error : ""
           }`.trim()}
@@ -29,6 +31,7 @@ export function Input({
 export function InputWithItem({
   children,
   error = "",
+  value = "",
   ...props
 }: React.InputHTMLAttributes<HTMLInputElement> & {
   children: React.ReactNode;
@@ -43,6 +46,7 @@ export function InputWithItem({
       >
         <input
           {...props}
+          value={value}
           className={`${props.className} ${styles.input} ${
             error.length > 0 ? styles.inp_error : ""
           }`}
