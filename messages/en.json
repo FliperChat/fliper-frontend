@@ -51,6 +51,9 @@
           "loginMin": "Login must have at least 5 characters",
           "emailCorrect": "Enter a valid email address",
           "passwordMin": "Password must have at least 8 characters",
+          "passwordMax": "Password must contain no more than 50 characters",
+          "emailExist": "Email is already taken",
+          "loginExist": "Login is already taken",
           "passwordLowercase": "Password must include at least one lowercase letter",
           "passwordNumber": "Password must include at least one digit",
           "passwordsMatch": "Passwords do not match"

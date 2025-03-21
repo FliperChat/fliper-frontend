@@ -21,8 +21,10 @@ const onRefreshed = (token: string) => {
 api.interceptors.request.use(
   (config) => {
     const token = getCookie("at");
+
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
+      config.headers["X-Lang"] = getCookie("lang") || "en";
     }
     return config;
   },
@@ -69,6 +71,7 @@ api.interceptors.response.use(
           onRefreshed(data.accessToken);
 
           originalRequest.headers.Authorization = `Bearer ${data.accessToken}`;
+          originalRequest.headers["X-Lang"] = getCookie("lang") || "en";
           return api(originalRequest);
         } catch (err) {
           console.error("Refresh token expired", err);
@@ -84,6 +87,7 @@ api.interceptors.response.use(
       return new Promise((resolve) => {
         subscribeTokenRefresh((token) => {
           originalRequest.headers.Authorization = `Bearer ${token}`;
+          originalRequest.headers["X-Lang"] = getCookie("lang") || "en";
           resolve(api(originalRequest));
         });
       });

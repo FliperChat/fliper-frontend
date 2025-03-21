@@ -19,6 +19,7 @@ export const getStepTwoSchema = (t: (key: string) => string) =>
       password: z
         .string()
         .min(8, t("errors.passwordMin"))
+        .max(50, t("errors.passwordMax"))
         .regex(/[a-z]/, t("errors.passwordLowercase"))
         .regex(/\d/, t("errors.passwordNumber")),
       passwordConfirm: z.string(),
@@ -104,12 +105,12 @@ function RegistrationSecondStep({
       const form = new FormData();
 
       for (const key in tempData) {
-        if (data.hasOwnProperty(key)) {
-          form.append(key, data[key as keyof RegAllStep] as any);
+        if (tempData.hasOwnProperty(key)) {
+          form.append(key, tempData[key as keyof RegAllStep] as any);
         }
       }
 
-      const result = await axios.post(
+      await axios.post(
         process.env.NEXT_PUBLIC_API_URL + "/profile/signup",
         form,
         {
@@ -120,10 +121,8 @@ function RegistrationSecondStep({
         }
       );
 
-      console.log(result);
-
       setStep("end");
-    } catch (error) {
+    } catch (error: any) {
       if (error instanceof z.ZodError) {
         const newErrors: { [key: string]: string } = {};
         error.errors.forEach((err) => {
@@ -132,6 +131,23 @@ function RegistrationSecondStep({
           }
         });
         setErrors(newErrors);
+      }
+
+      if (error?.response?.status === 409) {
+        const message = error.response.data.message;
+
+        if (message.includes("E-mail")) {
+          setErrors((prev) => ({
+            ...prev,
+            email: t("errors.emailExist"),
+          }));
+        }
+        if (message.includes("Login")) {
+          setErrors((prev) => ({
+            ...prev,
+            login: t("errors.loginExist"),
+          }));
+        }
       }
     }
   }
