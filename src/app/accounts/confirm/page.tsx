@@ -1,8 +1,53 @@
 "use server";
 
 import axios from "axios";
-import { cookies } from "next/headers";
+import { Metadata } from "next";
+import { getTranslations } from "next-intl/server";
+import { cookies, headers } from "next/headers";
 import { notFound, redirect } from "next/navigation";
+
+export async function generateMetadata({
+  searchParams,
+}: {
+  searchParams: { at: string };
+}): Promise<Metadata> {
+  const at = (await searchParams)?.at;
+
+  const t = await getTranslations("Auth.confirm");
+  const pathname = (await headers()).get("x-pathname") as string;
+
+  const url = `${process.env.SITE_URL}${pathname}?at=${at}`;
+
+  return {
+    title: t("meta.title"),
+    description: t("meta.description"),
+    keywords: t("meta.keywords"),
+
+    openGraph: {
+      title: t("meta.title"),
+      description: t("meta.description"),
+      images: "/assets/images/fliper.png",
+      type: "website",
+      url: url,
+    },
+
+    twitter: {
+      title: t("meta.title"),
+      description: t("meta.description"),
+      images: "/assets/images/fliper.png",
+      card: "summary",
+    },
+
+    robots: {
+      index: false,
+      follow: false,
+    },
+
+    alternates: {
+      canonical: process.env.SITE_URL + pathname,
+    },
+  };
+}
 
 export default async function SingUpConfirm({
   searchParams,
@@ -31,7 +76,6 @@ export default async function SingUpConfirm({
         },
       }
     );
-
     status = response.status;
   } catch (error) {
     if (axios.isAxiosError(error)) {

@@ -3,7 +3,7 @@
     "main": {
       "meta": {
         "title": "Welcome | Fliper",
-        "keywords": "flip, fliper, chat, message, call, welcome"
+        "keywords": "flip, fliper, social network, chat, message, call, welcome, photos, sharing moments, communication, social media"
       },
       "text": "Fast, reliable social network for everyone",
       "btn1": "Sign in",
@@ -13,14 +13,14 @@
       "meta": {
         "title": "Sign in | Fliper",
         "description": "Authorize on Fliper to share moments, photos and connect with friends. Join Fliper's unique social network to stay connected to the world.",
-        "keywords": "Fliper, social network, authorization, Fliper login, social networking, photos, sharing moments, communication, social media"
+        "keywords": "fliper, flip, social network, authorization, fliper login, social networking, photos, sharing moments, communication, social media"
       }
     },
     "reg": {
       "meta": {
         "title": "Sign up | Fliper",
         "description": "Sign up for Fliper to start sharing photos, connecting with friends and finding like-minded people. Join the Fliper social network now!",
-        "keywords": "Fliper, sign up, create an account, social network, photos, sharing moments, socializing, new account, join Fliper"
+        "keywords": "fliper, flip, sign up, create an account, social network, photos, sharing moments, socializing, new account, join fliper"
       },
       "stepOne": {
         "title": "Registration",
@@ -65,13 +65,20 @@
         "btn": "Change email address"
       }
     },
+    "confirm": {
+      "meta": {
+        "title": "Email Confirmation | Fliper",
+        "description": "This page is for account confirmation",
+        "keywords": "fliper, flip, account confirmation, confirm your account, verify your account, email confirmation, account verification"
+      }
+    },
     "forget": {}
   },
   "NotFound": {
     "meta": {
       "title": "Page not found | Fliper",
       "description": "Something went wrong and we couldn't find this page, please try again later or contact the owner.",
-      "keywords": "404, not_found, nf, flip, fliper, error, bad"
+      "keywords": "404, not_found, not found, nf, flip, fliper, error, bad"
     },
     "back": "Back",
     "text": "Not found"

@@ -19,6 +19,7 @@ const middlewares = {
       }
 
       const response = NextResponse.next();
+      response.headers.set("x-pathname", request.nextUrl.pathname);
       return forward(response);
     },
   ],
@@ -30,6 +31,7 @@ const middlewares = {
       }
 
       const response = NextResponse.next();
+      response.headers.set("x-pathname", request.nextUrl.pathname);
       return forward(response);
     },
   ],

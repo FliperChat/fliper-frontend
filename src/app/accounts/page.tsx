@@ -6,7 +6,7 @@ import ClientAcconts from "@/components/clientAccount/clientAcconts";
 
 export async function generateMetadata(): Promise<Metadata> {
   const t = await getTranslations("Auth.main");
-  const pathname = (await headers()).get("x-pathname") || "/not-found";
+  const pathname = (await headers()).get("x-pathname") as string;
 
   return {
     title: t("meta.title"),

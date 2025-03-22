@@ -5,7 +5,7 @@ import { headers } from "next/headers";
 
 export async function generateMetadata(): Promise<Metadata> {
   const t = await getTranslations("Auth.reg");
-  const pathname = (await headers()).get("x-pathname") || "/not-found";
+  const pathname = (await headers()).get("x-pathname") as string;
 
   return {
     title: t("meta.title"),
