@@ -3,10 +3,10 @@
 import RegistrationFirstStep from "@/components/regPages/firstStep";
 import RegistrationSecondStep from "@/components/regPages/secondStep";
 import { useState } from "react";
-import RegistrationLastStep from "./lastStep";
 import { RegAllStep } from "@/utils/types";
+import RegistrationLastStep from "@/components/regPages/lastStep";
 
-function SignUpMain() {
+function SignUpClient() {
   const [step, setStep] = useState<"one" | "two" | "end">("one");
   const [data, setData] = useState<RegAllStep>({});
 
@@ -31,4 +31,4 @@ function SignUpMain() {
   );
 }
 
-export default SignUpMain;
+export default SignUpClient;

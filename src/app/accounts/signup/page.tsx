@@ -1,7 +1,7 @@
-import SignUpMain from "@/components/regPages/main";
 import { Metadata } from "next";
 import { getTranslations } from "next-intl/server";
 import { headers } from "next/headers";
+import SignUpClient from "./clientRender";
 
 export async function generateMetadata(): Promise<Metadata> {
   const t = await getTranslations("Auth.reg");
@@ -39,7 +39,7 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 function SignUp() {
-  return <SignUpMain />;
+  return <SignUpClient />;
 }
 
 export default SignUp;

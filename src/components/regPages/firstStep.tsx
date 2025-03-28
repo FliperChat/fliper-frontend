@@ -97,7 +97,7 @@ function RegistrationFirstStep({
   return (
     <>
       <h1 className={styles.title}>{t("title")}</h1>
-      <form onSubmit={handleSubmit} className={styles.form}>
+      <form onSubmit={handleSubmit} className={styles.form} noValidate>
         <Input
           type="text"
           name="name"

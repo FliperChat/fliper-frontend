@@ -165,6 +165,7 @@ function RegistrationSecondStep({
       <form
         onSubmit={handleSubmit}
         className={`${styles.form} ${styles.formtwo}`}
+        noValidate
       >
         <div className={styles.reg_block}>
           <div

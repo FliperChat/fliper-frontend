@@ -14,6 +14,18 @@
         "title": "Sign in | Fliper",
         "description": "Authorize on Fliper to share moments, photos and connect with friends. Join Fliper's unique social network to stay connected to the world.",
         "keywords": "fliper, flip, social network, authorization, fliper login, social networking, photos, sharing moments, communication, social media"
+      },
+      "title": "Sign in",
+      "name": "E-Mail or nickname",
+      "password": "Password",
+      "btn1": "Login",
+      "forgot": "Forgot your password?",
+      "or": "or",
+      "btn2": "Sign up",
+      "cancel": "Cancel",
+      "errors": {
+        "loginErr": "Incorrect login",
+        "passwordErr": "Incorrect password"
       }
     },
     "reg": {
@@ -23,7 +35,7 @@
         "keywords": "fliper, flip, sign up, create an account, social network, photos, sharing moments, socializing, new account, join fliper"
       },
       "stepOne": {
-        "title": "Registration",
+        "title": "Sign up",
         "name": "Name",
         "phone": "Phone",
         "date": "Date of birth",

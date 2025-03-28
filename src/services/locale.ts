@@ -1,6 +1,5 @@
 "use server";
 
-import { Locale } from "@/utils/types";
 import { cookies, headers } from "next/headers";
 
 const COOKIE_NAME = "lang";

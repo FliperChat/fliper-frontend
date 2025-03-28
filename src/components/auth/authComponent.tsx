@@ -1,4 +1,5 @@
 import Image from "next/image";
+import "@/styles/auth.scss";
 import styles from "./auth.module.scss";
 
 function AuthComponent({ children }: { children: React.ReactNode }) {
