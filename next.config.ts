@@ -3,7 +3,7 @@ import createNextIntlPlugin from "next-intl/plugin";
 
 const cspHeader = `
     default-src 'self';
-    script-src 'self' 'unsafe-eval' 'unsafe-inline';
+    script-src 'self';
     style-src 'self' 'unsafe-inline';
     img-src 'self' ${process.env.API_URL} blob: data:;
     media-src 'self' ${process.env.API_URL};

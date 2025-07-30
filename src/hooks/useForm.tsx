@@ -1,19 +1,24 @@
 "use client";
+import { ObjectType } from "@/utils/types";
 import { useState } from "react";
 import { z, ZodError } from "zod";
 
 export default function useForm(
   initialValue?: { [key: string]: string },
-  onSubmitCallback?: (values: { [key: string]: string | Blob }) => void,
+  onSubmitCallback?: (values: ObjectType) => void,
   schema?: z.ZodSchema
 ) {
-  const [values, setValues] = useState<{ [key: string]: string | Blob }>(
-    initialValue || {}
-  );
-  const [errors, setErrors] = useState<{ [key: string]: string | null }>({});
-  const isValid = Object.values(errors).some(
-    (err: string | null) => !err || err.length === 0
-  );
+  const [values, setValues] = useState<ObjectType>(initialValue || {});
+  const [errors, setErrors] = useState<ObjectType>({});
+  const isValid = Object.values(errors).some((err: unknown) => {
+    if (err === null || err === undefined) return true;
+
+    if (typeof err === "string" || Array.isArray(err)) {
+      return err.length === 0;
+    }
+
+    return false;
+  });
 
   const handleZodError = (error: ZodError) => {
     const newErrors: { [key: string]: string } = {};
@@ -28,13 +33,13 @@ export default function useForm(
   function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
     const { name, value } = e.target;
 
-    setValues((prev: any) => ({
+    setValues((prev: ObjectType) => ({
       ...prev,
       [name]: value,
     }));
 
     if ((errors?.[name] as string)?.length > 0)
-      setErrors((prev: any) => ({
+      setErrors((prev: ObjectType) => ({
         ...prev,
         [name]: null,
       }));

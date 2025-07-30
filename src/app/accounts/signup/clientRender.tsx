@@ -10,25 +10,30 @@ function SignUpClient() {
   const [step, setStep] = useState<"one" | "two" | "end">("one");
   const [data, setData] = useState<RegAllStep>({});
 
-  return (
-    <>
-      {step === "two" ? (
-        <RegistrationSecondStep
-          setStep={setStep}
-          data={data}
-          setData={setData}
-        />
-      ) : step === "end" ? (
-        <RegistrationLastStep setStep={setStep} data={data} />
-      ) : (
-        <RegistrationFirstStep
-          setStep={setStep}
-          data={data}
-          setData={setData}
-        />
-      )}
-    </>
-  );
+  const renderStep = () => {
+    switch (step) {
+      case "two":
+        return (
+          <RegistrationSecondStep
+            setStep={setStep}
+            data={data}
+            setData={setData}
+          />
+        );
+      case "end":
+        return <RegistrationLastStep setStep={setStep} data={data} />;
+      default:
+        return (
+          <RegistrationFirstStep
+            setStep={setStep}
+            data={data}
+            setData={setData}
+          />
+        );
+    }
+  };
+
+  return <>{renderStep()}</>;
 }
 
 export default SignUpClient;

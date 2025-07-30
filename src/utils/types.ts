@@ -1,8 +1,10 @@
-import { locales } from "./constants";
+import { LOCALES } from "./constants";
 
-export type Locale = (typeof locales)[number];
+export type Locale = (typeof LOCALES)[number];
 
 export type Themes = "dark" | "light";
+
+export type ObjectType = { [key: string]: string | unknown | null };
 
 export interface ProfileData {
   name: string;

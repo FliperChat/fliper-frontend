@@ -36,6 +36,18 @@
   position: relative;
 }
 
+.input_field_date::after {
+  display: block;
+  width: 20px;
+  height: 20px;
+  background: #ffffff;
+  position: absolute;
+  content: "";
+  right: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
 .error {
   margin-top: 5px;
   margin-left: 10px;
@@ -60,6 +72,10 @@ body[data-theme="dark"] .input_field {
   background-size: 300% 300%;
 
   border-radius: 15px;
+}
+
+body[data-theme="dark"] .input_field_date::after {
+  background: #2f2f2f;
 }
 
 body[data-theme="dark"] .input {

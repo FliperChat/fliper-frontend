@@ -21,7 +21,7 @@ export function ThemeProvider({
   function toggleTheme() {
     const newTheme = theme === "light" ? "dark" : "light";
     setTheme(newTheme);
-    setCookie("theme", newTheme, { maxAge: 60 * 60 * 24 * 365 * 1000 });
+    setCookie("theme", newTheme);
   }
 
   useEffect(() => {

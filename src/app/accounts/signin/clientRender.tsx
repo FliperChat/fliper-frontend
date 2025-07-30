@@ -1,7 +1,6 @@
 "use client";
 
 import { Input, InputWithItem } from "@/components/input/customInput";
-import useForm from "@/hooks/useForm";
 import { useTranslations } from "next-intl";
 import Link from "next/link";
 import { z } from "zod";
@@ -10,6 +9,10 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import axios from "axios";
 import { getCookie } from "cookies-next/client";
+import { useAuth } from "@/components/context/AuthContext";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import { useMutation } from "@tanstack/react-query";
 
 export const getStepTwoSchema = (t: (key: string) => string) =>
   z.object({
@@ -18,64 +21,82 @@ export const getStepTwoSchema = (t: (key: string) => string) =>
   });
 
 function SignInClient() {
-  const t = useTranslations("Auth.login");
-  const { values, errors, handleChange, handleSubmit, setErrors } = useForm(
-    {
-      login: "",
-      password: "",
-    },
-    handleSubmitBtn,
-    getStepTwoSchema(t)
-  );
   const [showEye, setShowEye] = useState<boolean>(false);
 
+  const t = useTranslations("Auth.login");
+  const { login } = useAuth();
   const router = useRouter();
 
-  async function handleSubmitBtn(values: { [key: string]: string | Blob }) {
-    try {
-      const res = await axios.post(
+  const schema = getStepTwoSchema(t);
+  type FormData = z.infer<typeof schema>;
+  const {
+    handleSubmit,
+    formState: { errors },
+    setError,
+    register,
+  } = useForm<FormData>({
+    resolver: zodResolver(schema),
+  });
+
+  const mutation = useMutation({
+    mutationFn: async (data: FormData) => {
+      const response = await axios.post(
         process.env.NEXT_PUBLIC_API_URL + "/profile/signin",
-        values,
+        data,
         {
           headers: {
             "X-Lang": getCookie("lang")?.toString(),
           },
         }
       );
-    } catch (error: any) {
+
+      return response.data;
+    },
+    onSuccess: (data) => {
+      login({ token: data.accessToken, refresh: data.refreshToken });
+    },
+    onError: (error: any) => {
       if (
         error?.response?.status === 404 &&
         error?.response?.data.message === "User not found"
       ) {
-        setErrors((prev) => ({
-          ...prev,
-          login: t("errors.loginErr"),
-          password: t("errors.passwordErr"),
-        }));
+        setError("login", {
+          type: "manual",
+          message: t("errors.loginErr"),
+        });
+
+        setError("password", {
+          type: "manual",
+          message: t("errors.passwordErr"),
+        });
       }
-    }
+    },
+  });
+
+  async function handleSubmitBtn(data: FormData) {
+    await mutation.mutateAsync(data);
   }
 
   return (
     <>
       <h1 className="title">{t("title")}</h1>
-      <form onSubmit={handleSubmit} className="form" noValidate>
+      <form
+        onSubmit={handleSubmit(handleSubmitBtn)}
+        className="form"
+        noValidate
+      >
         <Input
           type="text"
-          name="login"
           placeholder={t("name")}
-          value={values.login as string}
-          onChange={handleChange}
-          error={errors?.login || undefined}
+          {...register("login")}
+          error={errors?.login?.message as string}
         />
         <InputWithItem
           type={showEye ? "text" : "password"}
-          name="password"
           className="password"
           placeholder={t("password")}
-          value={values.password as string}
-          onChange={handleChange}
-          error={errors?.password || undefined}
+          {...register("password")}
+          error={errors?.password?.message as string}
         >
           {showEye ? (
             <Image
@@ -99,7 +120,11 @@ function SignInClient() {
             />
           )}
         </InputWithItem>
-        <button type="submit" className="button_bg">
+        <button
+          type="submit"
+          className="button_bg"
+          disabled={Object.keys(errors).length > 0}
+        >
           {t("btn1")}
         </button>
       </form>

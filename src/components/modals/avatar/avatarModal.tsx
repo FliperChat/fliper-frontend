@@ -10,19 +10,20 @@ import {
   useState,
 } from "react";
 import { changeScrollActive } from "@/services/scroll";
+import { RegAllStep } from "@/utils/types";
 
 export default function AvatarModal({
   image,
   showModal,
   canvasRef,
   setShowModal,
-  setFormData,
+  setData,
 }: {
   image: HTMLImageElement | null;
   showModal: boolean;
   canvasRef: RefObject<HTMLCanvasElement | null>;
   setShowModal: Dispatch<SetStateAction<boolean>>;
-  setFormData: Dispatch<SetStateAction<any>>;
+  setData: (blob: Blob | null) => void;
 }) {
   const t = useTranslations("Auth.reg.stepTwo");
 
@@ -31,7 +32,7 @@ export default function AvatarModal({
   const [scale, setScale] = useState(1);
   const [startPos, setStartPos] = useState({ x: 0, y: 0 });
 
-  // Рисует изображение на canvas
+  // Draws an image on a canvas
   const drawImage = () => {
     if (!canvasRef.current || !image) return;
     const ctx = canvasRef.current.getContext("2d");
@@ -54,7 +55,7 @@ export default function AvatarModal({
     const { width, height } = canvasRef.current;
     const scaleX = width / image.width;
     const scaleY = height / image.height;
-    const initialScale = Math.min(scaleX, scaleY, 1); // Не больше 1 (натуральный размер)
+    const initialScale = Math.min(scaleX, scaleY, 1); // No more than 1 (natural size)
 
     setScale(initialScale);
     setPosition({
@@ -67,7 +68,7 @@ export default function AvatarModal({
     drawImage();
   }, [image, position, scale]);
 
-  // Начало перетаскивания
+  // Start dragging
   const handleMouseDown = (e: React.MouseEvent) => {
     setIsDragging(true);
     setStartPos({ x: e.clientX - position.x, y: e.clientY - position.y });
@@ -77,7 +78,7 @@ export default function AvatarModal({
     }
   };
 
-  // Остановка перетаскивания
+  // Stop dragging
   const handleMouseUp = () => {
     setIsDragging(false);
 
@@ -86,7 +87,7 @@ export default function AvatarModal({
     }
   };
 
-  // Перемещение изображения
+  // Moving the image
   const handleMouseMove = (e: MouseEvent) => {
     if (!isDragging || !image || !canvasRef.current) return;
 
@@ -94,32 +95,32 @@ export default function AvatarModal({
     const canvasWidth = canvas.width;
     const canvasHeight = canvas.height;
 
-    // Размеры изображения с учётом масштаба
+    // Scaled image dimensions
     const imgWidth = image.width * scale;
     const imgHeight = image.height * scale;
 
-    // Новые координаты после перетаскивания
+    // New coordinates after dragging
     const newX = e.clientX - startPos.x;
     const newY = e.clientY - startPos.y;
 
-    // Ограничиваем позицию по X (в пределах холста)
-    const minX = Math.min(0, canvasWidth - imgWidth); // Левый край
-    const maxX = Math.min(0, imgWidth - canvasWidth); // Правый край
+    // Limit the X position (within the canvas)
+    const minX = Math.min(0, canvasWidth - imgWidth); // Left edge
+    const maxX = Math.min(0, imgWidth - canvasWidth); // Right edge
     const limitedX = Math.max(minX, Math.min(newX, maxX));
 
-    // Ограничиваем позицию по Y (в пределах холста)
-    const minY = Math.min(0, canvasHeight - imgHeight); // Верхний край
-    const maxY = Math.min(0, imgHeight - canvasHeight); // Нижний край
+    // Limit the Y position (within the canvas)
+    const minY = Math.min(0, canvasHeight - imgHeight); // Upper edge
+    const maxY = Math.min(0, imgHeight - canvasHeight); // Lower edge
     const limitedY = Math.max(minY, Math.min(newY, maxY));
 
-    // Устанавливаем новую позицию с учётом ограничений
+    // Set a new position subject to restrictions
     setPosition({
       x: limitedX,
       y: limitedY,
     });
   };
 
-  // Масштабирование с помощью колесика мыши
+  // Scaling with the mouse wheel
   const handleWheel = (e: React.WheelEvent) => {
     const canvas = canvasRef.current;
     if (!canvas || !image || !canvasRef.current) return;
@@ -128,40 +129,40 @@ export default function AvatarModal({
     const scaleX = width / image.width;
     const scaleY = height / image.height;
 
-    const minScale = Math.min(scaleX, scaleY, 1); // Минимальный масштаб (не менее 20%)
-    const maxScale = 3; // Максимальный масштаб
-    const scaleStep = Math.max(0.01, scale * 0.05); // 5% от текущего масштаба, но не менее 0.01
+    const minScale = Math.min(scaleX, scaleY, 1); // Minimum scale (at least 20%)
+    const maxScale = 3; // Maximum scale
+    const scaleStep = Math.max(0.01, scale * 0.05); // 5% of the current scale, but not less than 0.01
 
     const newScale = Math.min(
       Math.max(scale + (e.deltaY > 0 ? -scaleStep : scaleStep), minScale),
       maxScale
     );
 
-    // Корректировка позиции для того, чтобы не выходить за края при увеличении/уменьшении
-    const deltaScale = newScale / scale; // Во сколько раз изменился масштаб
-    const centerX = position.x + canvas.width / 2; // Центр по X
-    const centerY = position.y + canvas.height / 2; // Центр по Y
+    // Adjusting the position to stay within the edges when zooming in/out
+    const deltaScale = newScale / scale; // How many times the scale has changed
+    const centerX = position.x + canvas.width / 2; // Center for X
+    const centerY = position.y + canvas.height / 2; // Center by Y
 
-    // Обновляем позицию, учитывая новый масштаб
+    // Updating the position, taking into account the new scale
     const newPosX = centerX - (canvas.width / 2) * deltaScale;
     const newPosY = centerY - (canvas.height / 2) * deltaScale;
 
-    // Ограничиваем позицию по X и Y (чтобы изображение не выходило за края канваса)
+    // Limit the X and Y position (so that the image does not extend beyond the edges of the canvas)
     const imgWidth = image.width * newScale;
     const imgHeight = image.height * newScale;
 
-    // Ограничиваем позицию по X
+    // Limit X position
     const minX = Math.min(0, canvas.width - imgWidth);
     const maxX = Math.max(0, imgWidth - canvas.width);
 
-    // Ограничиваем позицию по Y
+    // Limit the Y position
     const minY = Math.min(0, canvas.height - imgHeight);
     const maxY = Math.max(0, imgHeight - canvas.height);
 
-    let limitedX = Math.max(minX, Math.min(newPosX, maxX));
-    let limitedY = Math.max(minY, Math.min(newPosY, maxY));
+    const limitedX = Math.max(minX, Math.min(newPosX, maxX));
+    const limitedY = Math.max(minY, Math.min(newPosY, maxY));
 
-    // Обновляем позицию, учитывая новый масштаб
+    // Updating the position, taking into account the new scale
     setPosition({
       x: limitedX,
       y: limitedY,
@@ -170,14 +171,14 @@ export default function AvatarModal({
     setScale(newScale);
   };
 
-  // Функция обрезки изображения
+  // Image cropping function
   const handleCrop = () => {
     if (!canvasRef.current || !image) return;
     const ctx = canvasRef.current.getContext("2d");
     if (!ctx) return;
 
     const cropCanvas = document.createElement("canvas");
-    cropCanvas.width = 300; // Размер обрезки
+    cropCanvas.width = 300; // Trimming size
     cropCanvas.height = 300;
     const cropCtx = cropCanvas.getContext("2d");
     if (!cropCtx) return;
@@ -196,10 +197,7 @@ export default function AvatarModal({
 
     cropCanvas.toBlob((blob) => {
       if (blob) {
-        setFormData((prev: any) => ({
-          ...prev,
-          image: blob,
-        }));
+        setData(blob);
         setShowModal(false);
         changeScrollActive();
       }

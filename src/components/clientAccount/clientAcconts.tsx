@@ -8,7 +8,7 @@ import styles from "./accounts.module.scss";
 import SiteIcon from "../icons/site/siteIcon";
 import useLang from "@/hooks/useLang";
 import { useTheme } from "../context/ThemeContext";
-import { locales } from "@/utils/constants";
+import { LOCALES } from "@/utils/constants";
 import { useTranslations } from "next-intl";
 
 export default function ClientAcconts({ lang }: { lang: string }) {
@@ -21,8 +21,8 @@ export default function ClientAcconts({ lang }: { lang: string }) {
 
   const switchLanguage = () => {
     const nextIndex =
-      (locales.indexOf(currentLang as Locale) + 1) % locales.length;
-    const nextLang = locales[nextIndex];
+      (LOCALES.indexOf(currentLang as Locale) + 1) % LOCALES.length;
+    const nextLang = LOCALES[nextIndex];
 
     setCurrentLang(nextLang);
     changeLang(nextLang);

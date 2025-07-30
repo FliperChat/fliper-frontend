@@ -1,8 +1,11 @@
 import Image from "next/image";
 import "@/styles/auth.scss";
 import styles from "./auth.module.scss";
+import { useMemo } from "react";
 
 function AuthComponent({ children }: { children: React.ReactNode }) {
+  const year = useMemo(() => new Date().getFullYear(), []);
+
   return (
     <div className={styles.auth_background}>
       <div className={styles.image} data-auth-img="bi1">
@@ -115,9 +118,7 @@ function AuthComponent({ children }: { children: React.ReactNode }) {
       </div>
       <div className={styles.point}></div>
       <main className={styles.auth_block}>{children}</main>
-      <footer className={styles.auth_footer}>
-        &#169; {new Date().getFullYear()} Flip
-      </footer>
+      <footer className={styles.auth_footer}>&#169; {year} Flip</footer>
     </div>
   );
 }

@@ -8,12 +8,16 @@ export function Input({
 }: React.InputHTMLAttributes<HTMLInputElement> & {
   error?: string;
 }) {
+  const isDateType = props.type === "date";
+
   return (
     <fieldset>
       <div
-        className={`${error?.length > 0 ? styles.inp_field_error : ""} ${
-          styles.input_field
-        }`}
+        className={`
+          ${error.length > 0 ? styles.inp_field_error : ""}
+          ${styles.input_field}
+          ${isDateType ? styles.input_field_date : ""}
+        `.trim()}
       >
         <input
           {...props}

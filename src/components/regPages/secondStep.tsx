@@ -1,4 +1,4 @@
-import { RegAllStep, RegStepTwo } from "@/utils/types";
+import { RegAllStep } from "@/utils/types";
 import { Dispatch, SetStateAction, useRef, useState } from "react";
 import styles from "./reg.module.scss";
 import Link from "next/link";
@@ -10,6 +10,8 @@ import { changeScrollActive } from "@/services/scroll";
 import AvatarModal from "../modals/avatar/avatarModal";
 import axios from "axios";
 import { getCookie } from "cookies-next/client";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
 
 export const getStepTwoSchema = (t: (key: string) => string) =>
   z
@@ -27,7 +29,7 @@ export const getStepTwoSchema = (t: (key: string) => string) =>
     })
     .refine((data) => data.password === data.passwordConfirm, {
       message: t("errors.passwordsMatch"),
-      path: ["passwordConfirm", "password"],
+      path: ["passwordConfirm"],
     });
 
 function RegistrationSecondStep({
@@ -42,6 +44,19 @@ function RegistrationSecondStep({
   const t = useTranslations("Auth.reg.stepTwo");
 
   const stepTwoSchema = getStepTwoSchema(t);
+  type FormData = z.infer<typeof stepTwoSchema>;
+  const {
+    handleSubmit,
+    formState: { errors },
+    setError,
+    register,
+    getValues,
+    watch,
+    setValue,
+  } = useForm<FormData>({
+    resolver: zodResolver(stepTwoSchema),
+    defaultValues: { ...(data as FormData) },
+  });
 
   const fileRef = useRef<HTMLInputElement | null>(null);
 
@@ -49,30 +64,13 @@ function RegistrationSecondStep({
   const [image, setImage] = useState<HTMLImageElement | null>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
-  const [formData, setFormData] = useState<RegStepTwo>(data);
-  const [errors, setErrors] = useState<{ [key: string]: string }>();
-
-  const croppedImageUrl = formData.image
-    ? URL.createObjectURL(formData.image)
+  const watchImage = watch("image");
+  const croppedImageUrl = watchImage
+    ? URL.createObjectURL(watchImage as Blob)
     : null;
 
   const [showEye, setShowEye] = useState<boolean>(false);
   const [showEye2, setShowEye2] = useState<boolean>(false);
-
-  function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
-    const { name, value } = e.target;
-
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-
-    if ((errors?.[name] as string)?.length > 0)
-      setErrors((prev) => ({
-        ...prev,
-        [name]: "",
-      }));
-  }
 
   function handleChangeFile(e: React.ChangeEvent<HTMLInputElement>) {
     const { files } = e.target;
@@ -88,25 +86,28 @@ function RegistrationSecondStep({
     };
   }
 
-  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault();
-    setErrors({});
-
+  async function handleSubmitBtn(data: FormData) {
     try {
-      stepTwoSchema.parse(formData);
-
-      const tempData = { ...data, ...formData };
+      const tempData: RegAllStep = { ...data, ...getValues() };
 
       setData((prev) => ({
         ...prev,
-        ...formData,
+        ...getValues(),
       }));
 
       const form = new FormData();
 
       for (const key in tempData) {
         if (tempData.hasOwnProperty(key)) {
-          form.append(key, tempData[key as keyof RegAllStep] as any);
+          const value = tempData[key as keyof RegAllStep];
+
+          if (value instanceof Blob) {
+            form.append(key, value);
+          } else if (value instanceof Date) {
+            form.append(key, value.toISOString());
+          } else if (value !== undefined && value !== null) {
+            form.append(key, String(value));
+          }
         }
       }
 
@@ -121,32 +122,35 @@ function RegistrationSecondStep({
         }
       );
 
+      if (croppedImageUrl) URL.revokeObjectURL(croppedImageUrl);
+
       setStep("end");
-    } catch (error: any) {
+    } catch (error) {
       if (error instanceof z.ZodError) {
-        const newErrors: { [key: string]: string } = {};
         error.errors.forEach((err) => {
           if (err.path.length > 0) {
-            newErrors[err.path[0]] = err.message;
+            setError(err.path[0] as keyof FormData, {
+              type: "manual",
+              message: err.message,
+            });
           }
         });
-        setErrors(newErrors);
       }
 
-      if (error?.response?.status === 409) {
+      if (axios.isAxiosError(error) && error?.response?.status === 409) {
         const message = error.response.data.message;
 
         if (message.includes("E-mail")) {
-          setErrors((prev) => ({
-            ...prev,
-            email: t("errors.emailExist"),
-          }));
+          setError("email", {
+            type: "manual",
+            message: t("errors.emailExist"),
+          });
         }
         if (message.includes("Login")) {
-          setErrors((prev) => ({
-            ...prev,
-            login: t("errors.loginExist"),
-          }));
+          setError("login", {
+            type: "manual",
+            message: t("errors.loginExist"),
+          });
         }
       }
     }
@@ -157,14 +161,14 @@ function RegistrationSecondStep({
       <AvatarModal
         canvasRef={canvasRef}
         image={image}
-        setFormData={setFormData}
+        setData={(blob) => setValue("image", blob, { shouldValidate: true })}
         setShowModal={setShowModal}
         showModal={showModal}
       />
 
       <form
-        onSubmit={handleSubmit}
-        className={`${styles.form} ${styles.formtwo}`}
+        onSubmit={handleSubmit(handleSubmitBtn)}
+        className="form formtwo"
         noValidate
       >
         <div className={styles.reg_block}>
@@ -225,28 +229,22 @@ function RegistrationSecondStep({
           <div className={styles.form_data}>
             <Input
               type="text"
-              name="login"
               placeholder={t("login")}
-              value={formData.login}
-              onChange={handleChange}
-              error={errors?.login}
+              {...register("login")}
+              error={errors?.login?.message}
             />
             <Input
               type="email"
-              name="email"
               placeholder={t("email")}
-              value={formData.email}
-              onChange={handleChange}
-              error={errors?.email}
+              {...register("email")}
+              error={errors?.email?.message}
             />
             <InputWithItem
               type={showEye ? "text" : "password"}
-              name="password"
-              className={styles.password}
+              className="password"
               placeholder={t("password")}
-              value={formData.password}
-              onChange={handleChange}
-              error={errors?.password}
+              {...register("password")}
+              error={errors?.password?.message}
             >
               {showEye ? (
                 <Image
@@ -255,7 +253,7 @@ function RegistrationSecondStep({
                   height={25}
                   alt="pass_eye"
                   draggable={false}
-                  className={styles.eye}
+                  className="eye"
                   onClick={() => setShowEye(!showEye)}
                 />
               ) : (
@@ -265,19 +263,17 @@ function RegistrationSecondStep({
                   height={25}
                   alt="pass_eye"
                   draggable={false}
-                  className={styles.eye}
+                  className="eye"
                   onClick={() => setShowEye(!showEye)}
                 />
               )}
             </InputWithItem>
             <InputWithItem
               type={showEye2 ? "text" : "password"}
-              name="passwordConfirm"
-              className={styles.password}
+              className="password"
               placeholder={t("passwordConfirm")}
-              value={formData.passwordConfirm}
-              onChange={handleChange}
-              error={errors?.passwordConfirm}
+              {...register("passwordConfirm")}
+              error={errors?.passwordConfirm?.message}
             >
               {showEye2 ? (
                 <Image
@@ -286,7 +282,7 @@ function RegistrationSecondStep({
                   height={25}
                   alt="pass_eye"
                   draggable={false}
-                  className={styles.eye}
+                  className="eye"
                   onClick={() => setShowEye2(!showEye2)}
                 />
               ) : (
@@ -296,16 +292,16 @@ function RegistrationSecondStep({
                   height={25}
                   alt="pass_eye"
                   draggable={false}
-                  className={styles.eye}
+                  className="eye"
                   onClick={() => setShowEye2(!showEye2)}
                 />
               )}
             </InputWithItem>
           </div>
         </div>
-        <div className={styles.pagination}>
-          <div className={styles.not_active}></div>
-          <div className={styles.active}></div>
+        <div className="pagination">
+          <div className="not_active"></div>
+          <div className="active"></div>
         </div>
         <button type="submit" className={`button_bg ${styles.btn_p2}`}>
           {t("next")}
@@ -318,7 +314,7 @@ function RegistrationSecondStep({
 
           setStep("one");
         }}
-        className={styles.back_link}
+        className="back_link"
       >
         {t("back")}
       </Link>

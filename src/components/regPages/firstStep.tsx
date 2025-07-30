@@ -1,11 +1,12 @@
 import { z } from "zod";
 import validator from "validator";
 import Link from "next/link";
-import { Dispatch, SetStateAction, useState } from "react";
-import { RegAllStep, RegStepOne } from "@/utils/types";
+import { Dispatch, SetStateAction } from "react";
+import { RegAllStep } from "@/utils/types";
 import { Input } from "../input/customInput";
 import { useTranslations } from "next-intl";
-import styles from "./reg.module.scss";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 export const getStepOneSchema = (t: (key: string) => string) =>
   z.object({
@@ -47,90 +48,73 @@ function RegistrationFirstStep({
   const t = useTranslations("Auth.reg.stepOne");
 
   const stepOneSchema = getStepOneSchema(t);
+  type FormData = z.infer<typeof stepOneSchema>;
+  const {
+    handleSubmit,
+    formState: { errors },
+    setError,
+    register,
+  } = useForm<FormData>({
+    resolver: zodResolver(stepOneSchema),
+    defaultValues: { ...(data as FormData) },
+  });
 
-  const [formData, setFormData] = useState<RegStepOne>(data);
-  const [errors, setErrors] = useState<{ [key: string]: string }>();
-
-  function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
-    const { name, value } = e.target;
-
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-
-    if ((errors?.[name] as string)?.length > 0)
-      setErrors((prev) => ({
-        ...prev,
-        [name]: "",
-      }));
-  }
-
-  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault();
-    setErrors({});
-
+  async function handleSubmitBtn(data: FormData) {
     try {
-      stepOneSchema.parse({
-        ...formData,
-        date: new Date(formData?.birthDay as string),
-      });
-
       setData((prev) => ({
         ...prev,
-        ...formData,
+        ...data,
       }));
       setStep("two");
     } catch (error) {
       if (error instanceof z.ZodError) {
-        const newErrors: { [key: string]: string } = {};
         error.errors.forEach((err) => {
           if (err.path.length > 0) {
-            newErrors[err.path[0]] = err.message;
+            setError(err.path[0] as keyof FormData, {
+              type: "manual",
+              message: err.message,
+            });
           }
         });
-        setErrors(newErrors);
       }
     }
   }
 
   return (
     <>
-      <h1 className={styles.title}>{t("title")}</h1>
-      <form onSubmit={handleSubmit} className={styles.form} noValidate>
+      <h1 className="title">{t("title")}</h1>
+      <form
+        onSubmit={handleSubmit(handleSubmitBtn)}
+        className="form"
+        noValidate
+      >
         <Input
           type="text"
-          name="name"
           placeholder={t("name")}
-          value={formData.name}
-          onChange={handleChange}
-          error={errors?.name}
+          {...register("name")}
+          error={errors?.name?.message}
         />
         <Input
           type="text"
-          name="phone"
           placeholder={t("phone")}
-          value={formData.phone}
-          onChange={handleChange}
-          error={errors?.phone}
+          {...register("phone")}
+          error={errors?.phone?.message}
         />
         <Input
           type="date"
-          name="birthDay"
           placeholder={t("date")}
-          value={formData.birthDay as string}
-          onChange={handleChange}
-          error={errors?.birthDay}
+          {...register("birthDay")}
+          error={errors?.birthDay?.message}
         />
-        <div className={styles.pagination}>
-          <div className={styles.active}></div>
-          <div className={styles.not_active}></div>
+        <div className="pagination">
+          <div className="active"></div>
+          <div className="not_active"></div>
         </div>
         <button type="submit" className="button_bg">
           {t("next")}
         </button>
       </form>
-      <Link href="/accounts" className={`link ${styles.cancel}`}>
+      <Link href="/accounts" className="link cancel">
         {t("cancel")}
       </Link>
     </>

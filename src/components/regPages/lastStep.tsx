@@ -13,7 +13,7 @@ function RegistrationLastStep({
 
   return (
     <>
-      <h1 className={styles.title}>{t("title")}</h1>
+      <h1 className="title">{t("title")}</h1>
       <p className={styles.email_content}>
         {t("content", { email: data.email as string })}
       </p>

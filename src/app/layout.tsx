@@ -9,6 +9,7 @@ import { Metadata } from "next";
 import { getUserLocale } from "@/services/locale";
 import { AuthProvider } from "@/components/context/AuthContext";
 import { getAuth } from "@/services/auth";
+import QueryProvider from "@/components/context/QueryContext";
 
 export async function generateMetadata(): Promise<Metadata> {
   const lang = await getUserLocale();
@@ -74,11 +75,13 @@ export default async function RootLayout({
         />
       </head>
       <body data-theme={theme}>
-        <NextIntlClientProvider>
-          <ThemeProvider initialTheme={theme}>
-            <AuthProvider auth={auth}>{children}</AuthProvider>
-          </ThemeProvider>
-        </NextIntlClientProvider>
+        <QueryProvider>
+          <NextIntlClientProvider>
+            <ThemeProvider initialTheme={theme}>
+              <AuthProvider auth={auth}>{children}</AuthProvider>
+            </ThemeProvider>
+          </NextIntlClientProvider>
+        </QueryProvider>
       </body>
     </html>
   );
